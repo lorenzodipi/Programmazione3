@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.*;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -54,11 +55,19 @@ public class ClientController {
     private Email selectedEmail;
     private Email emptyEmail;
     private String email;
+    private int casella;
 
     @FXML
     protected void initialize() throws IOException {
         if (this.model != null)
             throw new IllegalStateException("Model can only be initialized once");
+
+        try {
+            Server server = new Server(new ServerSocket(1234));
+        }catch (IOException e) {
+            System.out.println("Error creating server socket");
+        }
+
         email = getUsername();
         model = new Client(email);
 
@@ -69,28 +78,35 @@ public class ClientController {
         lblUscita.setOnMouseClicked(this::onClickUscita);
         btnNewMail.setOnMouseClicked(this::onClickNew);
         btnSenderAnnulla.setOnMouseClicked(this::onClickEntrata);
-        btnDelete.setOnMouseClicked(this::onClickDelete);
         btnSenderInvia.setOnMouseClicked(this::onClickSendEmail);
+        btnDelete.setOnMouseClicked(this::onClickDelete);
     }
 
     private void showSelectedEmail(MouseEvent mouseEvent) {
         Email email = lstEmails.getSelectionModel().getSelectedItem();
-
         selectedEmail = email;
         updateDetailView(email);
     }
     protected void updateDetailView(Email email) {
         if (email != null) {
-            lblFrom.setText(email.getSender());
-            lblTo.setText(String.join(", ", email.getReceivers()));
-            lblSubject.setText(email.getSubject());
-            txtEmailContent.setText(email.getText());
+            if(casella == 0){
+                lblFrom.setText(email.getSender());
+                lblTo.setText(email.getReceivers());
+                lblSubject.setText(email.getSubject());
+                txtEmailContent.setText(email.getText());
+            }else {
+                lblFrom.setText(email.getReceivers());
+                lblTo.setText(email.getSender());
+                lblSubject.setText(email.getSubject());
+                txtEmailContent.setText(email.getText());
+            }
+
         }
     }
     protected String getUsername() {
         ArrayList<String> mail = new ArrayList<>();
         try {
-            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Prog3\\Programmazione3\\username.txt");
+            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\username.txt");
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
             while (myReader.hasNextLine()) {
@@ -199,7 +215,7 @@ public class ClientController {
 
     }
     private void onClickEntrata(MouseEvent mouseEvent) {
-        //model = new Client(email);
+        casella = 0;
 
         lblUsername.textProperty().bind(model.emailAddressProperty());
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
@@ -225,7 +241,7 @@ public class ClientController {
 
     }
     private void onClickUscita(MouseEvent mouseEvent) {
-        //model = new Client(email);
+        casella = 1;
 
         lblUsername.textProperty().bind(model.emailAddressProperty());
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");

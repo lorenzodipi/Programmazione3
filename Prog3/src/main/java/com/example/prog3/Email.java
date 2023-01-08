@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Email {
-
-
     private String sender;
     private String receivers;
     private String subject;

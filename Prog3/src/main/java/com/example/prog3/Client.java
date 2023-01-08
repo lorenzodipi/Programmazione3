@@ -39,10 +39,8 @@ public class Client{
         inboxContent.addListener(new ListChangeListener<Email>() {
             @Override
             public void onChanged(Change<? extends Email> change) {
-
             }
         });
-
     }
 
     /**
@@ -72,7 +70,7 @@ public class Client{
     }
 
     public void getEmail(String username) throws IOException {
-        File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Prog3\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
+        File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
         if (myObj.exists()){
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
@@ -99,11 +97,11 @@ public class Client{
     }
 
     public void getEmailUscita(String username) throws IOException {
-        File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Prog3\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
+        File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
         if (myObj.exists()){
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
-
+            inboxContent.clear();
             while (myReader.hasNextLine()) {
                 String sender = myReader.nextLine();
                 if(!sender.equals(username)){
@@ -115,11 +113,11 @@ public class Client{
                     String riga;
                     while (!(riga = myReader.nextLine()).equals("------------------"))
                         content = content + riga;
-                    Email email = new Email(sender, receiver, object, content);
+                    Email email = new Email(receiver, sender, object, content);
                     inboxContent.add(email);
                 }
-
             }
+
             reader.close();
             myReader.close();
         }
