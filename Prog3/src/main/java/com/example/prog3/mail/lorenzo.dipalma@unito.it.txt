@@ -1,0 +1,18 @@
+daniel.botezat@unito.it
+Importante
+È necessario che ci parliamo di persona, per com.example.prog3.mail rischiamo sempre fraintendimenti
+------------------
+luca.perugini@unito.it
+A proposito della nostra ultima conversazione
+Ricordati di comprare il latte tornando a casa
+------------------
+lorenzo.dipalma@unito.it
+stefano.venitucci@unito.it
+Lorem ipsum
+dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque
+------------------
+lorenzo.dipalma@unito.it
+stefano.venitucci@unito.it
+Nulla
+consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+------------------

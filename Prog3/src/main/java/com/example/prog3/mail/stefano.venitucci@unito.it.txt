@@ -1,0 +1,21 @@
+lorenzo.dipalma@unito.it
+Lorem ipsum
+dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque
+------------------
+daniel.botezat@unito.it
+penatibus
+et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+------------------
+lorenzo.dipalma@unito.it
+Nulla
+consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
+------------------
+antonio.adascaliti@unito.it
+imperdiet a
+venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum
+------------------
+stefano.venitucci@unito.it
+daniel.botezat@unito.it
+dapibus
+in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
+------------------
