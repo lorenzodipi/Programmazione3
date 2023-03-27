@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.*;
 
@@ -70,7 +71,7 @@ public class Client{
     }
 
     public void getEmail(String username) throws IOException {
-        File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
+        File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
         if (myObj.exists()){
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
@@ -97,7 +98,7 @@ public class Client{
     }
 
     public void getEmailUscita(String username) throws IOException {
-        File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
+        File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
         if (myObj.exists()){
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
@@ -225,4 +226,17 @@ public class Client{
             }
         }
     }
+
+    public void socketConnection(){
+        try {
+            Socket socket = new Socket(InetAddress.getLocalHost(),7);
+
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            out.writeObject("ciao");
+        } catch (IOException e) {
+            System.out.println("ERRORE");
+            e.printStackTrace();
+        }
+    }
+
 }

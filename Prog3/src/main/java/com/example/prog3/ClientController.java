@@ -62,11 +62,11 @@ public class ClientController {
         if (this.model != null)
             throw new IllegalStateException("Model can only be initialized once");
 
-        try {
+        /*try {
             Server server = new Server(new ServerSocket(1234));
         }catch (IOException e) {
             System.out.println("Error creating server socket");
-        }
+        }*/
 
         email = getUsername();
         model = new Client(email);
@@ -106,7 +106,7 @@ public class ClientController {
     protected String getUsername() {
         ArrayList<String> mail = new ArrayList<>();
         try {
-            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\username.txt");
+            File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\Prog3\\username.txt");
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
             while (myReader.hasNextLine()) {
@@ -128,7 +128,7 @@ public class ClientController {
     private void onClickDelete(MouseEvent mouseEvent){
         System.out.println("***** "+model);
         if (!lstEmails.getSelectionModel().getSelectedItems().get(0).getSender().equals(email)){
-            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Prog3\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
+            File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
             if (myObj.exists()){
                 try {
                     FileReader reader = new FileReader(myObj);
@@ -170,7 +170,7 @@ public class ClientController {
 
             }
         } else {
-            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Prog3\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
+            File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
             if (myObj.exists()){
                 try {
                     FileReader reader = new FileReader(myObj);
@@ -216,6 +216,8 @@ public class ClientController {
     }
     private void onClickEntrata(MouseEvent mouseEvent) {
         casella = 0;
+
+        model.socketConnection();
 
         lblUsername.textProperty().bind(model.emailAddressProperty());
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
@@ -297,7 +299,7 @@ public class ClientController {
         if(!destinatario.equals("") && !destinatario.equals(email) && !oggetto.equals("") && !testo.equals("")){
             System.out.println("dentro");
             try {
-                File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Prog3\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+destinatario+".txt");
+                File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+destinatario+".txt");
                 FileReader reader = new FileReader(myObj);
                 Scanner myReader = new Scanner(reader);
                 String text= "";
@@ -314,7 +316,7 @@ public class ClientController {
                 writer.append(text).append("\n").append(email).append("\n").append(oggetto).append("\n").append(testo).append("\n------------------");
                 writer.close();
 
-                myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Prog3\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
+                myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
                 reader = new FileReader(myObj);
                 myReader = new Scanner(reader);
                 text= "";
