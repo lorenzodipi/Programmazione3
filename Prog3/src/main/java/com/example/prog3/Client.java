@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.util.*;
 
 public class Client{
+    int a = 0;
     Socket socket = null;
     ObjectOutputStream outputStream = null;
     ObjectInputStream inputStream = null;
@@ -71,7 +72,7 @@ public class Client{
     }
 
     public void getEmail(String username) throws IOException {
-        File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
+        File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+username+".txt");
         if (myObj.exists()){
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
@@ -97,8 +98,18 @@ public class Client{
         }
     }
 
+    public void setEmail(ArrayList<Email> em) throws IOException {
+        if (!em.isEmpty()) {
+            inboxContent.clear();
+            for (Email email : em) {
+                inboxContent.add(email);
+            }
+        }
+
+    }
+
     public void getEmailUscita(String username) throws IOException {
-        File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
+        File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+username+".txt");
         if (myObj.exists()){
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
@@ -190,6 +201,7 @@ public class Client{
     }
 
     private void connectToServer() throws IOException {
+        System.out.println("prova");
         socket = new Socket(host, port);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
 
@@ -227,16 +239,48 @@ public class Client{
         }
     }
 
-    public void socketConnection(){
+    public ArrayList<Email> socketConnection(String username){
         try {
-            Socket socket = new Socket(InetAddress.getLocalHost(),7);
+            if(a==0)
+                socket = new Socket(InetAddress.getLocalHost(),7);
+
+            a= 1;
 
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            out.writeObject("ciao");
+            out.writeObject(username);
+            out.writeObject("entrata");
+            out.flush();
+
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            ArrayList<Email> prova = (ArrayList<Email>) in.readObject();
+            System.out.println(prova);
+            return prova;
         } catch (IOException e) {
-            System.out.println("ERRORE");
+            System.out.println("ERRORE a");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("ERRORE b");
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    /*public void socketConnection(String username) {
+        try (Socket socket = new Socket(InetAddress.getLocalHost(),7);
+             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+             ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
+
+            System.out.println("1111");
+            out.writeObject(username);
+            out.writeObject("entrata");
+            out.flush(); // non necessario se stai chiudendo il BufferedWriter alla fine
+
+            System.out.println("4444");
+            System.out.println(in.readObject());
+            System.out.println("55555");
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }

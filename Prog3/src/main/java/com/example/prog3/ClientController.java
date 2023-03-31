@@ -106,7 +106,7 @@ public class ClientController {
     protected String getUsername() {
         ArrayList<String> mail = new ArrayList<>();
         try {
-            File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\Prog3\\username.txt");
+            File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt");
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
             while (myReader.hasNextLine()) {
@@ -115,8 +115,8 @@ public class ClientController {
             reader.close();
             myReader.close();
             Random rand = new Random();
-
-            return mail.get(rand.nextInt(mail.size()));
+            return "lorenzo.dipalma@unito.it";
+            //return mail.get(rand.nextInt(mail.size()));
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -128,7 +128,7 @@ public class ClientController {
     private void onClickDelete(MouseEvent mouseEvent){
         System.out.println("***** "+model);
         if (!lstEmails.getSelectionModel().getSelectedItems().get(0).getSender().equals(email)){
-            File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
+            File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+email+".txt");
             if (myObj.exists()){
                 try {
                     FileReader reader = new FileReader(myObj);
@@ -170,7 +170,7 @@ public class ClientController {
 
             }
         } else {
-            File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
+            File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+email+".txt");
             if (myObj.exists()){
                 try {
                     FileReader reader = new FileReader(myObj);
@@ -216,14 +216,13 @@ public class ClientController {
     }
     private void onClickEntrata(MouseEvent mouseEvent) {
         casella = 0;
-
-        model.socketConnection();
+        ArrayList<Email> em = model.socketConnection(email);
 
         lblUsername.textProperty().bind(model.emailAddressProperty());
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
 
         try {
-            model.getEmail(email);
+            model.setEmail(em);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -299,7 +298,7 @@ public class ClientController {
         if(!destinatario.equals("") && !destinatario.equals(email) && !oggetto.equals("") && !testo.equals("")){
             System.out.println("dentro");
             try {
-                File myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+destinatario+".txt");
+                File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+destinatario+".txt");
                 FileReader reader = new FileReader(myObj);
                 Scanner myReader = new Scanner(reader);
                 String text= "";
@@ -316,7 +315,7 @@ public class ClientController {
                 writer.append(text).append("\n").append(email).append("\n").append(oggetto).append("\n").append(testo).append("\n------------------");
                 writer.close();
 
-                myObj = new File("C:\\Users\\Daniel\\OneDrive\\Desktop\\Programmazione3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
+                myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+email+".txt");
                 reader = new FileReader(myObj);
                 myReader = new Scanner(reader);
                 text= "";

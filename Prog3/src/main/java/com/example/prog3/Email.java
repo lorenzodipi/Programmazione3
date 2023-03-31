@@ -1,15 +1,16 @@
 package com.example.prog3;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Email {
+public class Email implements Serializable {
     private String sender;
     private String receivers;
     private String subject;
     private String text;
 
-    private Email() {}
+    Email() {}
 
     /**
      * Costruttore della classe.
