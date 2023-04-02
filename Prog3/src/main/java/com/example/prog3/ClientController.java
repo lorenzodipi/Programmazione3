@@ -103,32 +103,10 @@ public class ClientController {
 
         }
     }
-    protected String getUsername() {
-        ArrayList<String> mail = new ArrayList<>();
-        try {
-            File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt");
-            FileReader reader = new FileReader(myObj);
-            Scanner myReader = new Scanner(reader);
-            while (myReader.hasNextLine()) {
-                mail.add(myReader.nextLine());
-            }
-            reader.close();
-            myReader.close();
-            Random rand = new Random();
-            return "lorenzo.dipalma@unito.it";
-            //return mail.get(rand.nextInt(mail.size()));
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
     private void onClickDelete(MouseEvent mouseEvent){
         System.out.println("***** "+model);
         if (!lstEmails.getSelectionModel().getSelectedItems().get(0).getSender().equals(email)){
-            File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+email+".txt");
+            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
             if (myObj.exists()){
                 try {
                     FileReader reader = new FileReader(myObj);
@@ -170,7 +148,7 @@ public class ClientController {
 
             }
         } else {
-            File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+email+".txt");
+            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
             if (myObj.exists()){
                 try {
                     FileReader reader = new FileReader(myObj);
@@ -214,62 +192,6 @@ public class ClientController {
         }
 
     }
-    private void onClickEntrata(MouseEvent mouseEvent) {
-        casella = 0;
-        ArrayList<Email> em = model.socketConnection(email);
-
-        lblUsername.textProperty().bind(model.emailAddressProperty());
-        txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
-
-        try {
-            model.setEmail(em);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        selectedEmail = null;
-
-        lstEmails.itemsProperty().bind(model.inboxProperty());
-        lstEmails.setOnMouseClicked(this::showSelectedEmail);
-
-        txtEmailContent.setEditable(false);
-
-        gridPaneSender.setManaged(false);
-        gridPaneSender.setVisible(false);
-
-        splitPane.setManaged(true);
-        splitPane.setVisible(true);
-
-    }
-    private void onClickUscita(MouseEvent mouseEvent) {
-        casella = 1;
-
-        lblUsername.textProperty().bind(model.emailAddressProperty());
-        txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
-
-        try {
-            model.getEmailUscita(email);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        selectedEmail = null;
-
-        lstEmails.itemsProperty().bind(model.inboxProperty());
-        lstEmails.setOnMouseClicked(this::showSelectedEmail);
-
-        emptyEmail = new Email("", "", "", "");
-        txtEmailContent.setEditable(false);
-
-    }
-    private void onClickNew(MouseEvent mouseEvent){
-
-        gridPaneSender.setManaged(true);
-        gridPaneSender.setVisible(true);
-
-        splitPane.setManaged(false);
-        splitPane.setVisible(false);
-    }
     private void onClickSendEmail(MouseEvent mouseEvent){
         String destinatario = txtFieldDestinatario.getText();
         String oggetto = txtFieldOggetto.getText();
@@ -298,7 +220,7 @@ public class ClientController {
         if(!destinatario.equals("") && !destinatario.equals(email) && !oggetto.equals("") && !testo.equals("")){
             System.out.println("dentro");
             try {
-                File myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+destinatario+".txt");
+                File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+destinatario+".txt");
                 FileReader reader = new FileReader(myObj);
                 Scanner myReader = new Scanner(reader);
                 String text= "";
@@ -315,7 +237,7 @@ public class ClientController {
                 writer.append(text).append("\n").append(email).append("\n").append(oggetto).append("\n").append(testo).append("\n------------------");
                 writer.close();
 
-                myObj = new File("/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/"+email+".txt");
+                myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
                 reader = new FileReader(myObj);
                 myReader = new Scanner(reader);
                 text= "";
@@ -338,5 +260,73 @@ public class ClientController {
             }
         }
 
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------------*/
+
+    protected String getUsername() {
+        ArrayList<String> mail = new ArrayList<>();
+        try {
+            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\username.txt");
+            FileReader reader = new FileReader(myObj);
+            Scanner myReader = new Scanner(reader);
+            while (myReader.hasNextLine()) {
+                mail.add(myReader.nextLine());
+            }
+            reader.close();
+            myReader.close();
+            Random rand = new Random();
+            return "lorenzo.dipalma@unito.it";
+            //return mail.get(rand.nextInt(mail.size()));
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
+    /*----------------------------------------------------------------------------------------------------------------------*/
+    private void onClickNew(MouseEvent mouseEvent){
+
+        gridPaneSender.setManaged(true);
+        gridPaneSender.setVisible(true);
+        splitPane.setManaged(false);
+        splitPane.setVisible(false);
+    }
+
+
+    private void onClickEntrata(MouseEvent mouseEvent) {
+
+        casella = 0;
+
+        model.socketEntrata(email);
+
+        lblUsername.textProperty().bind(model.emailAddressProperty());
+        txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
+        selectedEmail = null;
+        lstEmails.itemsProperty().bind(model.inboxProperty());
+        lstEmails.setOnMouseClicked(this::showSelectedEmail);
+        txtEmailContent.setEditable(false);
+        gridPaneSender.setManaged(false);
+        gridPaneSender.setVisible(false);
+        splitPane.setManaged(true);
+        splitPane.setVisible(true);
+
+    }
+    private void onClickUscita(MouseEvent mouseEvent) {
+        casella = 1;
+
+        model.socketUscita(email);
+
+        lblUsername.textProperty().bind(model.emailAddressProperty());
+        txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
+        selectedEmail = null;
+        lstEmails.itemsProperty().bind(model.inboxProperty());
+        lstEmails.setOnMouseClicked(this::showSelectedEmail);
+        emptyEmail = new Email("", "", "", "");
+        txtEmailContent.setEditable(false);
     }
 }
