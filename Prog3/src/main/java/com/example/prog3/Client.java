@@ -15,6 +15,8 @@ import java.net.Socket;
 import java.util.*;
 
 public class Client{
+
+
     Socket socket = null;
     //ObjectOutputStream outputStream = null;
     //ObjectInputStream inputStream = null;
@@ -217,8 +219,8 @@ public class Client{
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
             out.flush();
-            out.writeObject(username);
             out.writeObject("entrata");
+            out.writeObject(username);
 
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ArrayList<Email> ee = (ArrayList<Email>) in.readObject();
@@ -240,8 +242,8 @@ public class Client{
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
             out.flush();
-            out.writeObject(username);
             out.writeObject("uscita");
+            out.writeObject(username);
 
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ArrayList<Email> eu = (ArrayList<Email>) in.readObject();
@@ -254,6 +256,53 @@ public class Client{
         } catch (ClassNotFoundException e) {
             System.out.println("ERRORE b");
             throw new RuntimeException(e);
+        }
+    }
+
+    public void socketSend(String username, String destinatario, String oggetto, String testo){
+        try {
+            Email send = new Email(destinatario, username, oggetto, testo);
+
+            socket = new Socket(InetAddress.getLocalHost(),7);
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+            out.flush();
+            out.writeObject("send");
+            out.writeObject(send);
+
+        } catch (IOException e) {
+            System.out.println("ERRORE a");
+            e.printStackTrace();
+        }
+    }
+    public void socketDelete1(String username, int index){
+        try {
+            socket = new Socket(InetAddress.getLocalHost(),7);
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+            out.flush();
+            out.writeObject("delete1");
+            out.writeObject(username);
+            out.writeObject(index);
+
+        } catch (IOException e) {
+            System.out.println("ERRORE a");
+            e.printStackTrace();
+        }
+    }
+    public void socketDelete2(String username, int index){
+        try {
+            socket = new Socket(InetAddress.getLocalHost(),7);
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+            out.flush();
+            out.writeObject("delete2");
+            out.writeObject(username);
+            out.writeObject(index);
+
+        } catch (IOException e) {
+            System.out.println("ERRORE a");
+            e.printStackTrace();
         }
     }
 

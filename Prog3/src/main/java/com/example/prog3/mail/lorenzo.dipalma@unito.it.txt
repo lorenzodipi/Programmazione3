@@ -16,3 +16,8 @@ stefano.venitucci@unito.it
 Nulla
 consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
 ------------------
+lorenzo.dipalma@unito.it
+cristina.muntianu@unito.it
+Saluti
+Ciao
+------------------

@@ -1,7 +1,6 @@
 package com.example.prog3;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Email implements Serializable {
@@ -33,7 +32,7 @@ public class Email implements Serializable {
         return sender;
     }
 
-    public String getReceivers() {
+    public String getReceiver() {
         return receivers;
     }
 

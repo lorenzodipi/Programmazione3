@@ -1,6 +1,5 @@
 package com.example.prog3;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -9,12 +8,18 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class ClientController {
+
+    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\
+    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail
+    String path = "/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/";
+    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt
+    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt
+    String path_user ="/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt";
     @FXML
     private Label lblFrom;
     @FXML
@@ -57,6 +62,38 @@ public class ClientController {
     private String email;
     private int casella;
 
+    /*----------------------------------------------------------------------------------------------------------------------*/
+
+    protected String getUsername() {
+        ArrayList<String> mail = new ArrayList<>();
+        try {
+            File myObj = new File(path_user);
+            FileReader reader = new FileReader(myObj);
+            Scanner myReader = new Scanner(reader);
+            while (myReader.hasNextLine()) {
+                mail.add(myReader.nextLine());
+            }
+            reader.close();
+            myReader.close();
+            Random rand = new Random();
+            return "lorenzo.dipalma@unito.it";
+            //return mail.get(rand.nextInt(mail.size()));
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
+    /*----------------------------------------------------------------------------------------------------------------------*/
+    private void showSelectedEmail(MouseEvent mouseEvent) {
+        Email email = lstEmails.getSelectionModel().getSelectedItem();
+        selectedEmail = email;
+        updateDetailView(email);
+    }
     @FXML
     protected void initialize() throws IOException {
         if (this.model != null)
@@ -81,21 +118,22 @@ public class ClientController {
         btnSenderInvia.setOnMouseClicked(this::onClickSendEmail);
         btnDelete.setOnMouseClicked(this::onClickDelete);
     }
+    private void onClickNew(MouseEvent mouseEvent){
 
-    private void showSelectedEmail(MouseEvent mouseEvent) {
-        Email email = lstEmails.getSelectionModel().getSelectedItem();
-        selectedEmail = email;
-        updateDetailView(email);
+        gridPaneSender.setManaged(true);
+        gridPaneSender.setVisible(true);
+        splitPane.setManaged(false);
+        splitPane.setVisible(false);
     }
     protected void updateDetailView(Email email) {
         if (email != null) {
             if(casella == 0){
                 lblFrom.setText(email.getSender());
-                lblTo.setText(email.getReceivers());
+                lblTo.setText(email.getReceiver());
                 lblSubject.setText(email.getSubject());
                 txtEmailContent.setText(email.getText());
             }else {
-                lblFrom.setText(email.getReceivers());
+                lblFrom.setText(email.getReceiver());
                 lblTo.setText(email.getSender());
                 lblSubject.setText(email.getSubject());
                 txtEmailContent.setText(email.getText());
@@ -103,93 +141,19 @@ public class ClientController {
 
         }
     }
+
     private void onClickDelete(MouseEvent mouseEvent){
-        System.out.println("***** "+model);
-        if (!lstEmails.getSelectionModel().getSelectedItems().get(0).getSender().equals(email)){
-            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
-            if (myObj.exists()){
-                try {
-                    FileReader reader = new FileReader(myObj);
-                    Scanner myReader = new Scanner(reader);
-
-                    int i = 0;
-                    String testo = "";
-                    while ( myReader.hasNextLine()) {
-                        String sender = myReader.nextLine();
-
-                        if(i != lstEmails.getSelectionModel().getSelectedIndex() || sender.equals(email)){
-                            if (!sender.equals(email))
-                                i = i + 1;
-                            testo = testo + sender + "\n";
-                            String riga;
-                            while (!(riga = myReader.nextLine()).equals("------------------")){
-                                testo = testo +riga + "\n";
-                            }
-                            testo = testo + "------------------\n";
-                        }else {
-                            while (!myReader.nextLine().equals("------------------")){}
-                            i = i+1;
-                        }
-                    }
-                    reader.close();
-                    myReader.close();
-
-                    FileWriter writer = new FileWriter(myObj);
-                    writer.write(testo);
-                    writer.close();
-
-                    onClickEntrata(null);
-
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
+        if (casella == 1){
+            model.socketDelete2(email,lstEmails.getSelectionModel().getSelectedIndex());
+            System.out.println("11111");
+            onClickUscita(null);
         } else {
-            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
-            if (myObj.exists()){
-                try {
-                    FileReader reader = new FileReader(myObj);
-                    Scanner myReader = new Scanner(reader);
-
-                    int i = 0;
-                    String testo = "";
-                    while ( myReader.hasNextLine()) {
-                        String sender = myReader.nextLine();
-
-                        if(i != lstEmails.getSelectionModel().getSelectedIndex() || !sender.equals(email)){
-                            if (sender.equals(email))
-                                i = i + 1;
-                            testo = testo + sender + "\n";
-                            String riga;
-                            while (!(riga = myReader.nextLine()).equals("------------------")){
-                                testo = testo +riga + "\n";
-                            }
-                            testo = testo + "------------------\n";
-                        }else {
-                            while (!myReader.nextLine().equals("------------------")){}
-                            i = i + 1;
-                        }
-                    }
-                    reader.close();
-                    myReader.close();
-
-                    FileWriter writer = new FileWriter(myObj);
-                    writer.write(testo);
-                    writer.close();
-
-                    onClickUscita(null);
-
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
+            System.out.println("2222");
+            model.socketDelete1(email,lstEmails.getSelectionModel().getSelectedIndex());
+            onClickEntrata(null);
         }
+        System.out.println("------------");
+        System.out.println("------------");
 
     }
     private void onClickSendEmail(MouseEvent mouseEvent){
@@ -218,9 +182,12 @@ public class ClientController {
         }
 
         if(!destinatario.equals("") && !destinatario.equals(email) && !oggetto.equals("") && !testo.equals("")){
-            System.out.println("dentro");
+
+            model.socketSend(email,destinatario,oggetto,testo);
+            onClickEntrata(null);
+            /*System.out.println("dentro");
             try {
-                File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+destinatario+".txt");
+                File myObj = new File(path+destinatario+".txt");
                 FileReader reader = new FileReader(myObj);
                 Scanner myReader = new Scanner(reader);
                 String text= "";
@@ -237,7 +204,7 @@ public class ClientController {
                 writer.append(text).append("\n").append(email).append("\n").append(oggetto).append("\n").append(testo).append("\n------------------");
                 writer.close();
 
-                myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+email+".txt");
+                myObj = new File(path+email+".txt");
                 reader = new FileReader(myObj);
                 myReader = new Scanner(reader);
                 text= "";
@@ -257,47 +224,10 @@ public class ClientController {
                 onClickEntrata(null);
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
+            }*/
         }
 
     }
-
-    /*----------------------------------------------------------------------------------------------------------------------*/
-
-    protected String getUsername() {
-        ArrayList<String> mail = new ArrayList<>();
-        try {
-            File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\username.txt");
-            FileReader reader = new FileReader(myObj);
-            Scanner myReader = new Scanner(reader);
-            while (myReader.hasNextLine()) {
-                mail.add(myReader.nextLine());
-            }
-            reader.close();
-            myReader.close();
-            Random rand = new Random();
-            return "lorenzo.dipalma@unito.it";
-            //return mail.get(rand.nextInt(mail.size()));
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-
-    /*----------------------------------------------------------------------------------------------------------------------*/
-    private void onClickNew(MouseEvent mouseEvent){
-
-        gridPaneSender.setManaged(true);
-        gridPaneSender.setVisible(true);
-        splitPane.setManaged(false);
-        splitPane.setVisible(false);
-    }
-
-
     private void onClickEntrata(MouseEvent mouseEvent) {
 
         casella = 0;
