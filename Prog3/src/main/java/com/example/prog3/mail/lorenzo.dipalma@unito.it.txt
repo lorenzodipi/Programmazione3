@@ -21,3 +21,49 @@ cristina.muntianu@unito.it
 Saluti
 Ciao
 ------------------
+SERVER
+ERRORE
+Non è stato possibile mandare una mail a jack perchè l'indirizzo è inesistente.
+------------------
+lorenzo.dipalma@unito.it
+antonio.adascaliti@unito.it
+Università
+Ci sei oggi?
+------------------
+cristina.muntianu@unito.it
+Prova
+Prova
+------------------
+lorenzo.dipalma@unito.it
+daniel.botezat@unito.it
+Rispondimi
+come va?
+
+------------------
+lorenzo.dipalma@unito.it
+luca.perugini@unito.it
+Gelato
+ti piace il gelato?
+------------------
+lorenzo.dipalma@unito.it
+luca.perugini@unito.it antonio.adascaliti@unito.it cristina.muntianu@unito.it stefano.venitucci@unito.it
+Ciao a tutti
+ciao
+------------------
+SERVER
+ERRORE
+Non è stato possibile mandare una mail a laura perchè l'indirizzo è inesistente.
+------------------
+lorenzo.dipalma@unito.it
+luca.perugini@unito.it antonio.adascaliti@unito.it 
+ecco
+già
+------------------
+SERVER
+ERRORE
+Non è stato possibile mandare una mail a stefano perchè l'indirizzo è inesistente.
+------------------
+luca.perugini@unito.it
+Dadi
+ho trovato dei dadi
+------------------

@@ -1,5 +1,6 @@
 package com.example.prog3;
 
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,100 +15,102 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.*;
 
-public class Client{
-
+public class Client {
 
     Socket socket = null;
-    //ObjectOutputStream outputStream = null;
-    //ObjectInputStream inputStream = null;
-    private final ListProperty<Email> inbox;
-    private final ObservableList<Email> inboxContent;
+    private ListProperty<Email> inbox;
+    private ObservableList<Email> inboxContent;
+    private ListProperty<Email> outbox;
+    private ObservableList<Email> outboxContent;
     private final StringProperty emailAddress;
-    String host = "127.0.0.1";
-    int port = 4445;
+    String username;
 
-    /**
-     * Costruttore della classe.
-     *
-     * @param emailAddress   indirizzo email
-     *
-     */
-
-    public Client(String emailAddress) {
+    public Client() {
         this.inboxContent = FXCollections.observableList(new LinkedList<>());
         this.inbox = new SimpleListProperty<>();
         this.inbox.set(inboxContent);
-        this.emailAddress = new SimpleStringProperty(emailAddress);
+
+        this.outboxContent = FXCollections.observableList(new LinkedList<>());
+        this.outbox = new SimpleListProperty<>();
+        this.outbox.set(outboxContent);
+
+        this.emailAddress = new SimpleStringProperty(socketUsername());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        socketEntrata(username);
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }).start();
 
         inboxContent.addListener(new ListChangeListener<Email>() {
             @Override
             public void onChanged(Change<? extends Email> change) {
             }
         });
+
+        outboxContent.addListener(new ListChangeListener<Email>() {
+            @Override
+            public void onChanged(Change<? extends Email> change) {
+
+            }
+        });
     }
 
-    /**
-     * @return      lista di email
-     *
-     */
+    public String getEmailAddress() {
+        return this.emailAddress.getValue();
+    }
+
     public ListProperty<Email> inboxProperty() {
         return inbox;
     }
+    public ListProperty<Email> outboxProperty() {
+        return outbox;
+    }
 
-    /**
-     *
-     * @return   indirizzo email della casella postale
-     *
-     */
     public StringProperty emailAddressProperty() {
         return emailAddress;
     }
 
-    /**
-     *
-     * @return   elimina l'email specificata
-     *
-     */
     public void deleteEmail(Email email) {
         inboxContent.remove(email);
     }
 
-    public void setEmail(ArrayList<Email> em) throws IOException {
-        if (!em.isEmpty()) {
-            inboxContent.clear();
-            for (Email email : em) {
-                inboxContent.add(email);
-            }
-        }
+    public void setEmail(ArrayList<Email> em,int c) throws IOException {
 
-    }
-
-    /*public void getEmailUscita(String username) throws IOException {
-        File myObj = new File("C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\"+username+".txt");
-        if (myObj.exists()){
-            FileReader reader = new FileReader(myObj);
-            Scanner myReader = new Scanner(reader);
-            inboxContent.clear();
-            while (myReader.hasNextLine()) {
-                String sender = myReader.nextLine();
-                if(!sender.equals(username)){
-                    while (!myReader.nextLine().equals("------------------")){}
-                }else {
-                    String receiver = myReader.nextLine();
-                    String object = myReader.nextLine();
-                    String content = "";
-                    String riga;
-                    while (!(riga = myReader.nextLine()).equals("------------------"))
-                        content = content + riga;
-                    Email email = new Email(receiver, sender, object, content);
-                    inboxContent.add(email);
+        if(c==0)
+            Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                inboxContent.clear();
+                if (!em.isEmpty()) {
+                    for (Email email : em) {
+                        inboxContent.add(email);
+                    }
                 }
             }
+        });
+        else
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    outboxContent.clear();
+                    if (!em.isEmpty()) {
+                        for (Email email : em) {
+                            outboxContent.add(email);
+                        }
+                    }
+                }
+            });
 
-            reader.close();
-            myReader.close();
-        }
-    }*/
+    }
 
     @Override
     public String toString() {
@@ -119,7 +122,6 @@ public class Client{
     }
 
     public void runClients() {
-        System.out.println("siuuuuuuuuuuu");
         /*List<Runnable> clients = new ArrayList<>();
 
         clients.add(this::communicate);
@@ -130,181 +132,122 @@ public class Client{
         }*/
     }
 
-    /*public void communicate(){
-
-        boolean success = false;
-        while(!success) {
-            System.out.println("[Client "+ this.emailAddress +"]");
-
-            success = tryCommunication();
-
-            if(success) {
-                continue;
-            }
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private boolean tryCommunication() {
+    public void socketEntrata(String username) {
         try {
-            connectToServer();
-
-            Thread.sleep(5000);
-
-            sendStudents(emailAddress);//TODO
-            receiveModifiedStudents();
-
-            return true;
-        } catch (ConnectException ce) {
-            // nothing to be done
-            return false;
-        } catch (IOException | ClassNotFoundException se) {
-            se.printStackTrace();
-            return false;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            closeConnections();
-        }
-    }
-
-    private void connectToServer() throws IOException {
-        System.out.println("prova");
-        socket = new Socket(host, port);
-        outputStream = new ObjectOutputStream(socket.getOutputStream());
-
-        // Dalla documentazione di ObjectOutputStream
-        // callers may wish to flush the stream immediately to ensure that constructors for receiving
-        // ObjectInputStreams will not block when reading the header.
-        outputStream.flush();
-
-        inputStream = new ObjectInputStream(socket.getInputStream());
-
-        System.out.println("[Client "+ this.emailAddress + "] Connesso");
-    }*/
-
-    /*private void sendStudents(StringProperty email) throws IOException, ClassNotFoundException {
-        outputStream.writeObject(email);
-        outputStream.flush();
-    }*/
-
-    /*private void receiveModifiedStudents() throws IOException, ClassNotFoundException {
-        StringProperty modifiedStudents = (StringProperty) inputStream.readObject();
-
-        if (modifiedStudents != null)
-            System.out.println("[Client " + this.emailAddress + "]");
-    }*/
-
-    /*private void closeConnections() {
-        if (socket != null) {
-            try {
-                inputStream.close();
-                outputStream.close();
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
-
-    public void socketEntrata(String username){
-        try {
-            socket = new Socket(InetAddress.getLocalHost(),7);
+            socket = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
             out.flush();
-            out.writeObject("entrata");
             out.writeObject(username);
-
+            out.writeObject("entrata");
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
             ArrayList<Email> ee = (ArrayList<Email>) in.readObject();
-            System.out.println(ee);
-            setEmail(ee);
+            setEmail(ee,0);
 
         } catch (IOException e) {
-            System.out.println("ERRORE a");
+            System.out.println("ERRORE a entrata");
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            System.out.println("ERRORE b");
+            System.out.println("ERRORE b entrata");
             throw new RuntimeException(e);
         }
     }
 
-    public void socketUscita(String username){
+    public void socketUscita(String username) {
         try {
-            socket = new Socket(InetAddress.getLocalHost(),7);
+            socket = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
             out.flush();
-            out.writeObject("uscita");
             out.writeObject(username);
+            out.writeObject("uscita");
+            //out.writeObject(username);
 
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ArrayList<Email> eu = (ArrayList<Email>) in.readObject();
-            System.out.println(eu);
-            setEmail(eu);
+            setEmail(eu,1);
 
         } catch (IOException e) {
-            System.out.println("ERRORE a");
+            System.out.println("ERRORE a Uscita");
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            System.out.println("ERRORE b");
+            System.out.println("ERRORE b Uscita");
             throw new RuntimeException(e);
         }
     }
 
-    public void socketSend(String username, String destinatario, String oggetto, String testo){
+    public void socketSend(String username, String destinatario, String oggetto, String testo) {
         try {
-            Email send = new Email(destinatario, username, oggetto, testo);
+            Email send = new Email(username, destinatario, oggetto, testo);
 
-            socket = new Socket(InetAddress.getLocalHost(),7);
+            socket = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
             out.flush();
+            out.writeObject(username);
             out.writeObject("send");
             out.writeObject(send);
 
         } catch (IOException e) {
-            System.out.println("ERRORE a");
+            System.out.println("ERRORE a send");
             e.printStackTrace();
         }
     }
-    public void socketDelete1(String username, int index){
+
+    public void socketDelete1(String username, int index) {
         try {
-            socket = new Socket(InetAddress.getLocalHost(),7);
+            socket = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
             out.flush();
+            out.writeObject(username);
             out.writeObject("delete1");
-            out.writeObject(username);
+            //out.writeObject(username);
             out.writeObject(index);
 
         } catch (IOException e) {
-            System.out.println("ERRORE a");
+            System.out.println("ERRORE a delete1");
             e.printStackTrace();
         }
     }
-    public void socketDelete2(String username, int index){
+
+    public void socketDelete2(String username, int index) {
         try {
-            socket = new Socket(InetAddress.getLocalHost(),7);
+            socket = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
             out.flush();
-            out.writeObject("delete2");
             out.writeObject(username);
+            out.writeObject("delete2");
+            //out.writeObject(username);
             out.writeObject(index);
 
         } catch (IOException e) {
-            System.out.println("ERRORE a");
+            System.out.println("ERRORE a delete2");
             e.printStackTrace();
         }
     }
 
+    public String socketUsername() {
+        try {
+            socket = new Socket(InetAddress.getLocalHost(), 7);
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
+            out.flush();
+            out.writeObject("");
+            out.writeObject("username");
+
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            username = (String) in.readObject();
+            return username;
+
+        } catch (IOException e) {
+            System.out.println("ERRORE a username");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

@@ -1,32 +1,91 @@
 package com.example.prog3;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
 
-    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\
-    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail
-    String path = "/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/";
+
+    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\       papà
+    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/     mac
+    //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\            mamma
+    String path = "C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
+
+    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt     mac
+    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt       papà
+    //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\\username.txt        mamma
+    String path_user ="C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\username.txt";
+
+    HashMap<String,File> hashMap = new HashMap<>();
+
+    ArrayList<String> userList = new ArrayList<>();
+
+    //TODO: possibilità di mandare la mail a più persone
+    //TODO: migliorare log server
+    //TODO: aggiornamento automatico delle mail in entrata e uscita
+
 
     Socket socket;
     ServerSocket s;
+    ObjectInputStream in;
     ArrayList<Email> server_email;
+    private ListProperty<String> logList;
 
+    private ObservableList<String> logListContent;
     String username;
 
     public Server(){
         try {
+
+            this.logListContent = FXCollections.observableList(new LinkedList<>());
+            this.logList = new SimpleListProperty<>();
+            this.logList.set(logListContent);
+
+            logListContent.addListener(new ListChangeListener<String>() {
+                @Override
+                public void onChanged(Change<? extends String> change) {
+
+                }
+            });
+
+            initializeHashMap();
             s = new ServerSocket(7);
             new Thread(new RunnableServer()).start();
 
         } catch (IOException e) {
             System.out.println("ERRORE ggggg");
+        }
+    }
+
+    public ListProperty<String> getLogList(){
+        return logList;
+    }
+
+    private void initializeHashMap() {
+        try {
+            File myObj = new File(path_user);
+            FileReader reader = new FileReader(myObj);
+            Scanner myReader = new Scanner(reader);
+
+            while(myReader.hasNextLine()){
+                String line = myReader.nextLine();
+                hashMap.put(line,new File(path+line+".txt"));
+            }
+
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -85,6 +144,40 @@ public class Server {
         return server_email;
     }
 
+    class ThreadUser implements Runnable {
+        ObjectOutputStream out;
+        public ThreadUser(ObjectOutputStream out){
+            this.out = out;
+        }
+
+        @Override
+        public void run() {
+            try {
+                File myObj = new File(path_user);
+                FileReader reader = new FileReader(myObj);
+                Scanner myReader = new Scanner(reader);
+                while (myReader.hasNextLine()) {
+                    userList.add(myReader.nextLine());
+                }
+                reader.close();
+                myReader.close();
+                Random rand = new Random();
+                username = userList.get(rand.nextInt(userList.size()));
+                out.writeObject(username);
+
+                logList.add(username+" ha fatto l'accesso.");
+
+                //return userList.get(rand.nextInt(userList.size()));
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+
     class ThreadEntrata implements Runnable {
         ObjectOutputStream out;
         public ThreadEntrata(ObjectOutputStream out){
@@ -97,8 +190,8 @@ public class Server {
                 server_email = new ArrayList<>();
                 server_email = getEmailEntrata(username);
 
-                System.out.println(server_email);
                 out.writeObject(server_email);
+
             } catch (IOException e) {
                 System.out.println("ERRORE NEL MANDARE ELENCO MAIL ENTRATA");
                 e.printStackTrace();
@@ -117,11 +210,9 @@ public class Server {
         public void run() {
             try {
                 server_email = new ArrayList<>(getEmailUscita(username));
-                //server_email = getEmailUscita(username);
-                System.out.println(server_email);
                 out.writeObject(server_email);
             } catch (IOException e) {
-                System.out.println("ERRORE NEL MANDARE ELENCO MAIL ENTRATA");
+                System.out.println("ERRORE NEL MANDARE ELENCO MAIL USCITA");
                 e.printStackTrace();
             }
 
@@ -139,39 +230,83 @@ public class Server {
         @Override
         public void run() {
             try {
-                File myObj = new File(path+send.getSender()+".txt");
-                FileReader reader = new FileReader(myObj);
-                Scanner myReader = new Scanner(reader);
-                String text= "";
+                boolean a = true;
+                String[] m = send.getReceiver().split("[\\s,;]+");
+                String elenco = "";
+                for (String r : m) {
+                    if(hashMap.get(r)!=null)
+                        elenco = elenco + r + " ";
+                }
 
-                while(myReader.hasNextLine())
-                    text = text + myReader.nextLine() +"\n";
 
-                text = text.substring(0, text.length()-1);
+                for (String receiver : m) {
+                    if(hashMap.get(receiver)!=null){
+                        File myObj = new File(path+receiver+".txt");        //file di chi lo sta ricevendo
+                        FileReader reader = new FileReader(myObj);
+                        Scanner myReader = new Scanner(reader);
+                        String text= "";
 
-                myReader.close();
-                reader.close();
+                        while(myReader.hasNextLine())
+                            text = text + myReader.nextLine() +"\n";
 
-                FileWriter writer = new FileWriter(myObj);
-                writer.append(text).append("\n").append(send.getReceiver()).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
-                writer.close();
+                        text = text.substring(0, text.length()-1);
 
-                myObj = new File(path+send.getReceiver()+".txt");
-                reader = new FileReader(myObj);
-                myReader = new Scanner(reader);
-                text= "";
+                        myReader.close();
+                        reader.close();
 
-                while(myReader.hasNextLine())
-                    text = text + myReader.nextLine() +"\n";
+                        synchronized (hashMap.get(username)){
+                            FileWriter writer = new FileWriter(myObj);
+                            writer.append(text).append("\n").append(send.getSender()).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
+                            writer.close();
+                        }
 
-                text = text.substring(0, text.length()-1);
+                        logList.add(username+" ha inviato una mail a "+receiver+".");
 
-                myReader.close();
-                reader.close();
+                        if(a){
+                            myObj = new File(path+send.getSender()+".txt");       //file di chi lo sta mandando
+                            reader = new FileReader(myObj);
+                            myReader = new Scanner(reader);
+                            text= "";
 
-                writer = new FileWriter(myObj);
-                writer.append(text).append("\n").append(send.getReceiver()).append("\n").append(send.getSender()).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
-                writer.close();
+                            while(myReader.hasNextLine())
+                                text = text + myReader.nextLine() +"\n";
+
+                            text = text.substring(0, text.length()-1);
+
+                            myReader.close();
+                            reader.close();
+
+                            synchronized (hashMap.get(receiver)){
+                                FileWriter writer = new FileWriter(myObj);
+                                writer.append(text).append("\n").append(send.getSender()).append("\n").append(elenco).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
+                                writer.close();
+                            }
+                            a = false;
+                        }
+
+                    }
+                    else {
+                        File myObj = new File(path+send.getSender()+".txt");
+                        FileReader reader = new FileReader(myObj);
+                        Scanner myReader = new Scanner(reader);
+                        String text= "";
+
+                        while(myReader.hasNextLine())
+                            text = text + myReader.nextLine() +"\n";
+
+                        text = text.substring(0, text.length()-1);
+
+                        myReader.close();
+                        reader.close();
+
+                        synchronized (hashMap.get(username)){
+                            FileWriter writer = new FileWriter(myObj);
+                            writer.append(text).append("\n").append("SERVER").append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+receiver+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                            writer.close();
+                        }
+                    }
+                }
+
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -290,48 +425,44 @@ public class Server {
 
         @Override
         public void run() {
+            ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
             while (true){
                 try {
+
                     socket = s.accept();
                     System.out.println("Accettato socket " + socket);
                     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                     out.flush();
-                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                    System.out.println(username);
+                    in = new ObjectInputStream(socket.getInputStream());
+                    username = (String) in.readObject();
                     String command = (String) in.readObject();
-                    System.out.println(command);
                     switch (command) {
 
+                        case "username":
+                            executor.execute(new ThreadUser(out));
+                            break;
+
                         case "entrata":
-                            username = (String) in.readObject();
-                            ThreadPoolExecutor executor_entrata = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-                            executor_entrata.execute(new ThreadEntrata(out));
+                            executor.execute(new ThreadEntrata(out));
                             break;
 
                         case "uscita":
-                            username = (String) in.readObject();
-                            ThreadPoolExecutor executor_uscita = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-                            executor_uscita.execute(new ThreadUscita(out));
+                            executor.execute(new ThreadUscita(out));
                             break;
 
                         case "send":
                             Email send = (Email) in.readObject();
-                            ThreadPoolExecutor executor_send = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-                            executor_send.execute(new ThreadSend(out, send));
+                            executor.execute(new ThreadSend(out, send));
                             break;
 
                         case "delete1":
-                            username = (String) in.readObject();
                             int index = (int) in.readObject();
-                            ThreadPoolExecutor executor_delete = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-                            executor_delete.execute(new ThreadDelete1(out, index));
+                            executor.execute(new ThreadDelete1(out, index));
                             break;
 
                         case "delete2":
-                            username = (String) in.readObject();
                             int index2 = (int) in.readObject();
-                            ThreadPoolExecutor executor_delete2 = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-                            executor_delete2.execute(new ThreadDelete2(out, index2));
+                            executor.execute(new ThreadDelete2(out, index2));
                             break;
 
                         default:

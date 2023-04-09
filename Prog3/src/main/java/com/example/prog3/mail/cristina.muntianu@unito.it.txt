@@ -7,3 +7,20 @@ lorenzo.dipalma@unito.it
 Saluti
 Ciao
 ------------------
+SERVER
+ERRORE
+Non è stato possibile mandare una mail a jack perchè l'indirizzo è inesistente.
+------------------
+cristina.muntianu@unito.it
+lorenzo.dipalma@unito.it
+Prova
+Prova
+------------------
+lorenzo.dipalma@unito.it
+Ciao a tutti
+ciao
+------------------
+luca.perugini@unito.it
+Esci?
+Volete uscire?
+------------------

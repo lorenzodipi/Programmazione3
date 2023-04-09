@@ -19,3 +19,15 @@ daniel.botezat@unito.it
 dapibus
 in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
 ------------------
+SERVER
+ERRORE
+Non è stato possibile mandare una mail a jack perchè l'indirizzo è inesistente.
+------------------
+lorenzo.dipalma@unito.it
+Ciao a tutti
+ciao
+------------------
+luca.perugini@unito.it
+Dadi
+ho trovato dei dadi
+------------------

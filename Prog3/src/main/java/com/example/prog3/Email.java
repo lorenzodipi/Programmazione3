@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Email implements Serializable {
     private String sender;
-    private String receivers;
+    private String receiver;
     private String subject;
     private String text;
 
@@ -15,17 +15,18 @@ public class Email implements Serializable {
      * Costruttore della classe.
      *
      * @param sender     email del mittente
-     * @param receivers  emails dei destinatari
+     * @param receiver  emails dei destinatari
      * @param subject    oggetto della com.example.prog3.lorenzo.dipalma@unito.it.txt
      * @param text       testo della com.example.prog3.lorenzo.dipalma@unito.it.txt
      */
 
 
-    public Email(String sender, String receivers, String subject, String text) {
+    public Email(String sender, String receiver, String subject, String text) {
         this.sender = sender;
+        this.receiver = receiver;
         this.subject = subject;
         this.text = text;
-        this.receivers = receivers;
+
     }
 
     public String getSender() {
@@ -33,7 +34,7 @@ public class Email implements Serializable {
     }
 
     public String getReceiver() {
-        return receivers;
+        return receiver;
     }
 
     public String getSubject() {

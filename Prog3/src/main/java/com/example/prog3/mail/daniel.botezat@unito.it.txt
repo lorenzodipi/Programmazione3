@@ -20,3 +20,12 @@ stefano.venitucci@unito.it
 penatibus
 et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
 ------------------
+lorenzo.dipalma@unito.it
+Rispondimi
+come va?
+
+------------------
+luca.perugini@unito.it
+Esci?
+Volete uscire?
+------------------

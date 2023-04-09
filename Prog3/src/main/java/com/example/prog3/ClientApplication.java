@@ -17,6 +17,10 @@ public class ClientApplication extends Application {
         stage.setTitle("Client");
         stage.setScene(scene);
         stage.show();
+
+        /*stage.setOnCloseRequest(e -> {
+            Thread.getAllStackTraces().keySet().forEach(Thread::interrupt);
+        });*/
     }
 
 

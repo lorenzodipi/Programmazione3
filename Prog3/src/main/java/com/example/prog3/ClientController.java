@@ -14,12 +14,17 @@ import java.util.Scanner;
 
 public class ClientController {
 
-    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\
-    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail
-    String path = "/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/";
-    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt
-    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt
-    String path_user ="/Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt";
+    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\       papà
+    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/     mac
+    //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\            mamma
+    String path = "C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
+
+
+    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt     mac
+    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt       papà
+    //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\\username.txt        mamma
+    String path_user ="C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\username.txt";
+
     @FXML
     private Label lblFrom;
     @FXML
@@ -62,55 +67,17 @@ public class ClientController {
     private String email;
     private int casella;
 
-    /*----------------------------------------------------------------------------------------------------------------------*/
-
-    protected String getUsername() {
-        ArrayList<String> mail = new ArrayList<>();
-        try {
-            File myObj = new File(path_user);
-            FileReader reader = new FileReader(myObj);
-            Scanner myReader = new Scanner(reader);
-            while (myReader.hasNextLine()) {
-                mail.add(myReader.nextLine());
-            }
-            reader.close();
-            myReader.close();
-            Random rand = new Random();
-            return "lorenzo.dipalma@unito.it";
-            //return mail.get(rand.nextInt(mail.size()));
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-
-    /*----------------------------------------------------------------------------------------------------------------------*/
-    private void showSelectedEmail(MouseEvent mouseEvent) {
-        Email email = lstEmails.getSelectionModel().getSelectedItem();
-        selectedEmail = email;
-        updateDetailView(email);
-    }
     @FXML
     protected void initialize() throws IOException {
         if (this.model != null)
             throw new IllegalStateException("Model can only be initialized once");
 
-        /*try {
-            Server server = new Server(new ServerSocket(1234));
-        }catch (IOException e) {
-            System.out.println("Error creating server socket");
-        }*/
-
-        email = getUsername();
-        model = new Client(email);
+        model = new Client();
+        email = model.getEmailAddress();
 
         onClickEntrata(null);
 
-        //OnClick Section
+
         lblEntrata.setOnMouseClicked(this::onClickEntrata);
         lblUscita.setOnMouseClicked(this::onClickUscita);
         btnNewMail.setOnMouseClicked(this::onClickNew);
@@ -118,7 +85,21 @@ public class ClientController {
         btnSenderInvia.setOnMouseClicked(this::onClickSendEmail);
         btnDelete.setOnMouseClicked(this::onClickDelete);
     }
+    private void showSelectedEmailEntrata(MouseEvent mouseEvent) {
+        Email email = lstEmails.getSelectionModel().getSelectedItem();
+        selectedEmail = email;
+        updateDetailView(email);
+    }
+    private void showSelectedEmailUscita(MouseEvent mouseEvent) {
+        Email email = lstEmails.getSelectionModel().getSelectedItem();
+        selectedEmail = email;
+        updateDetailView(email);
+    }
+    @FXML
     private void onClickNew(MouseEvent mouseEvent){
+        txtFieldDestinatario.clear();
+        txtFieldOggetto.clear();
+        txtAreaSender.clear();
 
         gridPaneSender.setManaged(true);
         gridPaneSender.setVisible(true);
@@ -141,41 +122,35 @@ public class ClientController {
 
         }
     }
-
     private void onClickDelete(MouseEvent mouseEvent){
         if (casella == 1){
             model.socketDelete2(email,lstEmails.getSelectionModel().getSelectedIndex());
-            System.out.println("11111");
             onClickUscita(null);
         } else {
-            System.out.println("2222");
             model.socketDelete1(email,lstEmails.getSelectionModel().getSelectedIndex());
             onClickEntrata(null);
         }
-        System.out.println("------------");
-        System.out.println("------------");
-
     }
     private void onClickSendEmail(MouseEvent mouseEvent){
         String destinatario = txtFieldDestinatario.getText();
         String oggetto = txtFieldOggetto.getText();
         String testo = txtAreaSender.getText();
 
-        if(destinatario.equals("") || destinatario.equals(email)){
+        if(destinatario.isEmpty()){
             txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(4), new BorderWidths(1))));
             txtFieldDestinatario.setBackground(new Background(new BackgroundFill(new Color(Color.RED.getRed(),0,0,0.1), CornerRadii.EMPTY, Insets.EMPTY)));
         }else {
             txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
             txtFieldDestinatario.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         }
-        if(oggetto.equals("")){
+        if(oggetto.isEmpty()){
             txtFieldOggetto.setBorder(new Border(new BorderStroke( Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(4), new BorderWidths(1))));
             txtFieldOggetto.setBackground(new Background(new BackgroundFill(new Color(Color.RED.getRed(),0,0,0.1), CornerRadii.EMPTY, Insets.EMPTY)));
         }else {
             txtFieldOggetto.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
             txtFieldOggetto.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         }
-        if(testo.equals("")){
+        if(testo.isEmpty()){
             txtAreaSender.setBorder(new Border(new BorderStroke( Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(4), new BorderWidths(1))));
         }else {
             txtAreaSender.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
@@ -185,46 +160,6 @@ public class ClientController {
 
             model.socketSend(email,destinatario,oggetto,testo);
             onClickEntrata(null);
-            /*System.out.println("dentro");
-            try {
-                File myObj = new File(path+destinatario+".txt");
-                FileReader reader = new FileReader(myObj);
-                Scanner myReader = new Scanner(reader);
-                String text= "";
-
-                while(myReader.hasNextLine())
-                    text = text + myReader.nextLine() +"\n";
-
-                text = text.substring(0, text.length()-1);
-
-                myReader.close();
-                reader.close();
-
-                FileWriter writer = new FileWriter(myObj);
-                writer.append(text).append("\n").append(email).append("\n").append(oggetto).append("\n").append(testo).append("\n------------------");
-                writer.close();
-
-                myObj = new File(path+email+".txt");
-                reader = new FileReader(myObj);
-                myReader = new Scanner(reader);
-                text= "";
-
-                while(myReader.hasNextLine())
-                    text = text + myReader.nextLine() +"\n";
-
-                text = text.substring(0, text.length()-1);
-
-                myReader.close();
-                reader.close();
-
-                writer = new FileWriter(myObj);
-                writer.append(text).append("\n").append(email).append("\n").append(destinatario).append("\n").append(oggetto).append("\n").append(testo).append("\n------------------");
-                writer.close();
-
-                onClickEntrata(null);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }*/
         }
 
     }
@@ -232,13 +167,18 @@ public class ClientController {
 
         casella = 0;
 
-        model.socketEntrata(email);
+        //model.socketEntrata(email);
+
+        lblFrom.setText("");
+        lblTo.setText("");
+        lblSubject.setText("");
+        txtEmailContent.setText("");
 
         lblUsername.textProperty().bind(model.emailAddressProperty());
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
         selectedEmail = null;
         lstEmails.itemsProperty().bind(model.inboxProperty());
-        lstEmails.setOnMouseClicked(this::showSelectedEmail);
+        lstEmails.setOnMouseClicked(this::showSelectedEmailEntrata);
         txtEmailContent.setEditable(false);
         gridPaneSender.setManaged(false);
         gridPaneSender.setVisible(false);
@@ -251,11 +191,17 @@ public class ClientController {
 
         model.socketUscita(email);
 
+        lblFrom.setText("");
+        lblTo.setText("");
+        lblSubject.setText("");
+        txtEmailContent.setText("");
+
         lblUsername.textProperty().bind(model.emailAddressProperty());
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
         selectedEmail = null;
-        lstEmails.itemsProperty().bind(model.inboxProperty());
-        lstEmails.setOnMouseClicked(this::showSelectedEmail);
+
+        lstEmails.itemsProperty().bind(model.outboxProperty());
+        lstEmails.setOnMouseClicked(this::showSelectedEmailUscita);
         emptyEmail = new Email("", "", "", "");
         txtEmailContent.setEditable(false);
     }
