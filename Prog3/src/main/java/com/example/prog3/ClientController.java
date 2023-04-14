@@ -17,13 +17,13 @@ public class ClientController {
     //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\       papà
     ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/     mac
     //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\            mamma
-    String path = "C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
+    String path = "C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
 
 
     ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt     mac
     //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt       papà
     //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\\username.txt        mamma
-    String path_user ="C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\username.txt";
+    String path_user ="C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\\\username.txt";
 
     @FXML
     private Label lblFrom;
@@ -47,6 +47,10 @@ public class ClientController {
     private Button btnDelete;
     @FXML
     private Button btnSender;
+    @FXML
+    private Button btnReply;
+    @FXML
+    private Button btnForward;
     @FXML
     private SplitPane splitPane;
     @FXML
@@ -84,11 +88,14 @@ public class ClientController {
         btnSenderAnnulla.setOnMouseClicked(this::onClickEntrata);
         btnSenderInvia.setOnMouseClicked(this::onClickSendEmail);
         btnDelete.setOnMouseClicked(this::onClickDelete);
+        btnReply.setOnMouseClicked(this::onClickReply);
+        btnForward.setOnMouseClicked(this::onClickForward);
     }
-    private void showSelectedEmailEntrata(MouseEvent mouseEvent) {
+    private void showSelectedEmail(MouseEvent mouseEvent) {
         Email email = lstEmails.getSelectionModel().getSelectedItem();
         selectedEmail = email;
         updateDetailView(email);
+        model.selectedItem(lstEmails.getSelectionModel().getSelectedIndex());
     }
     private void showSelectedEmailUscita(MouseEvent mouseEvent) {
         Email email = lstEmails.getSelectionModel().getSelectedItem();
@@ -100,6 +107,9 @@ public class ClientController {
         txtFieldDestinatario.clear();
         txtFieldOggetto.clear();
         txtAreaSender.clear();
+
+        txtFieldDestinatario.setEditable(true);
+        txtFieldOggetto.setEditable(true);
 
         gridPaneSender.setManaged(true);
         gridPaneSender.setVisible(true);
@@ -124,10 +134,10 @@ public class ClientController {
     }
     private void onClickDelete(MouseEvent mouseEvent){
         if (casella == 1){
-            model.socketDelete2(email,lstEmails.getSelectionModel().getSelectedIndex());
+            model.socketDelete2(email,lstEmails.getSelectionModel().getSelectedIndex(),lstEmails.getSelectionModel().getSelectedItem());
             onClickUscita(null);
         } else {
-            model.socketDelete1(email,lstEmails.getSelectionModel().getSelectedIndex());
+            model.socketDelete1(email,lstEmails.getSelectionModel().getSelectedIndex(),lstEmails.getSelectionModel().getSelectedItem());
             onClickEntrata(null);
         }
     }
@@ -178,7 +188,7 @@ public class ClientController {
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
         selectedEmail = null;
         lstEmails.itemsProperty().bind(model.inboxProperty());
-        lstEmails.setOnMouseClicked(this::showSelectedEmailEntrata);
+        lstEmails.setOnMouseClicked(this::showSelectedEmail);
         txtEmailContent.setEditable(false);
         gridPaneSender.setManaged(false);
         gridPaneSender.setVisible(false);
@@ -201,8 +211,48 @@ public class ClientController {
         selectedEmail = null;
 
         lstEmails.itemsProperty().bind(model.outboxProperty());
-        lstEmails.setOnMouseClicked(this::showSelectedEmailUscita);
+        lstEmails.setOnMouseClicked(this::showSelectedEmail);
         emptyEmail = new Email("", "", "", "");
         txtEmailContent.setEditable(false);
     }
+    private void onClickReply(MouseEvent mouseEvent){
+        if(!lblFrom.getText().isEmpty() || !lblTo.getText().isEmpty() || !lblSubject.getText().isEmpty() || !txtEmailContent.getText().isEmpty()){
+            txtFieldDestinatario.clear();
+            txtFieldOggetto.clear();
+            txtAreaSender.clear();
+
+            txtFieldDestinatario.setText(lblFrom.getText());
+            txtFieldOggetto.setText(lblSubject.getText());
+
+            txtFieldDestinatario.setEditable(false);
+            txtFieldOggetto.setEditable(false);
+
+            gridPaneSender.setManaged(true);
+            gridPaneSender.setVisible(true);
+            splitPane.setManaged(false);
+            splitPane.setVisible(false);
+
+        }
+    }
+    private void onClickForward(MouseEvent mouseEvent){
+        if(!lblFrom.getText().isEmpty() || !lblTo.getText().isEmpty() || !lblSubject.getText().isEmpty() || !txtEmailContent.getText().isEmpty()){
+            txtFieldDestinatario.clear();
+            txtFieldOggetto.clear();
+            txtAreaSender.clear();
+
+            txtAreaSender.setText(txtEmailContent.getText());
+            txtFieldOggetto.setText(lblSubject.getText());
+
+            txtFieldDestinatario.setEditable(true);
+            txtFieldOggetto.setEditable(false);
+
+            gridPaneSender.setManaged(true);
+            gridPaneSender.setVisible(true);
+            splitPane.setManaged(false);
+            splitPane.setVisible(false);
+
+
+        }
+    }
+
 }

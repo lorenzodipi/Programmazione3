@@ -8,9 +8,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.control.MultipleSelectionModel;
 
 import java.io.*;
-import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.*;
@@ -23,16 +23,17 @@ public class Client {
     private ListProperty<Email> outbox;
     private ObservableList<Email> outboxContent;
     private final StringProperty emailAddress;
+    private int selectedItem;
     String username;
 
     public Client() {
         this.inboxContent = FXCollections.observableList(new LinkedList<>());
-        this.inbox = new SimpleListProperty<>();
-        this.inbox.set(inboxContent);
+        this.inbox = new SimpleListProperty<>(inboxContent);
+        //this.inbox.set(inboxContent);
 
         this.outboxContent = FXCollections.observableList(new LinkedList<>());
-        this.outbox = new SimpleListProperty<>();
-        this.outbox.set(outboxContent);
+        this.outbox = new SimpleListProperty<>(outboxContent);
+        //this.outbox.set(outboxContent);
 
         this.emailAddress = new SimpleStringProperty(socketUsername());
 
@@ -42,7 +43,8 @@ public class Client {
                 while (true){
                     try {
                         socketEntrata(username);
-                        Thread.sleep(5000);
+                        socketUscita(username);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -53,65 +55,80 @@ public class Client {
         inboxContent.addListener(new ListChangeListener<Email>() {
             @Override
             public void onChanged(Change<? extends Email> change) {
+                //System.out.println("Listener inboxContent");
             }
         });
 
         outboxContent.addListener(new ListChangeListener<Email>() {
             @Override
             public void onChanged(Change<? extends Email> change) {
-
+                //System.out.println("Listener outboxContent");
             }
         });
     }
 
+    public void selectedItem(int iEmail){
+        selectedItem = iEmail;
+        System.out.println("Selected Item Index: " + selectedItem);
+    }
     public String getEmailAddress() {
         return this.emailAddress.getValue();
     }
-
     public ListProperty<Email> inboxProperty() {
         return inbox;
     }
     public ListProperty<Email> outboxProperty() {
         return outbox;
     }
-
     public StringProperty emailAddressProperty() {
         return emailAddress;
     }
-
-    public void deleteEmail(Email email) {
-        inboxContent.remove(email);
-    }
-
     public void setEmail(ArrayList<Email> em,int c) throws IOException {
 
         if(c==0)
             Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                inboxContent.clear();
-                if (!em.isEmpty()) {
-                    for (Email email : em) {
-                        inboxContent.add(email);
+                //inboxContent.clear();
+                int size = inbox.size();
+                if(inbox.size()==0){
+                    inboxContent.addAll(em);
+                    Collections.reverse(inboxContent);
+                }else{
+                    for (int i = 0; i < em.size()-size; i++) {
+                        inboxContent.add(em.get(inbox.size()+i));
                     }
+                    Collections.reverse(inboxContent);
                 }
+
             }
         });
         else
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    outboxContent.clear();
+                    //inboxContent.clear();
+                    int size = outbox.size();
+                    if(outbox.size()==0){
+                        outboxContent.addAll(em);
+                        Collections.reverse(outboxContent);
+                    }else{
+                        for (int i = 0; i < em.size()-size; i++) {
+                            outboxContent.add(em.get(outbox.size()+i));
+                        }
+                        Collections.reverse(outboxContent);
+                    }
+
+                    /*outboxContent.clear();
                     if (!em.isEmpty()) {
                         for (Email email : em) {
                             outboxContent.add(email);
                         }
-                    }
+                    }*/
                 }
             });
 
     }
-
     @Override
     public String toString() {
         return "Client{" +
@@ -120,18 +137,6 @@ public class Client {
                 ", emailAddress=" + emailAddress +
                 '}';
     }
-
-    public void runClients() {
-        /*List<Runnable> clients = new ArrayList<>();
-
-        clients.add(this::communicate);
-
-        for (Runnable client : clients) {
-            Thread thread = new Thread(client);
-            thread.start();
-        }*/
-    }
-
     public void socketEntrata(String username) {
         try {
             socket = new Socket(InetAddress.getLocalHost(), 7);
@@ -143,17 +148,17 @@ public class Client {
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
             ArrayList<Email> ee = (ArrayList<Email>) in.readObject();
-            setEmail(ee,0);
+
+            if(ee.size() > inbox.getSize())
+                setEmail(ee,0);
 
         } catch (IOException e) {
             System.out.println("ERRORE a entrata");
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             System.out.println("ERRORE b entrata");
             throw new RuntimeException(e);
         }
     }
-
     public void socketUscita(String username) {
         try {
             socket = new Socket(InetAddress.getLocalHost(), 7);
@@ -166,17 +171,17 @@ public class Client {
 
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ArrayList<Email> eu = (ArrayList<Email>) in.readObject();
-            setEmail(eu,1);
+
+            if(eu.size() > outbox.getSize())
+                setEmail(eu,1);
 
         } catch (IOException e) {
             System.out.println("ERRORE a Uscita");
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             System.out.println("ERRORE b Uscita");
             throw new RuntimeException(e);
         }
     }
-
     public void socketSend(String username, String destinatario, String oggetto, String testo) {
         try {
             Email send = new Email(username, destinatario, oggetto, testo);
@@ -191,11 +196,9 @@ public class Client {
 
         } catch (IOException e) {
             System.out.println("ERRORE a send");
-            e.printStackTrace();
         }
     }
-
-    public void socketDelete1(String username, int index) {
+    public void socketDelete1(String username, int index,Email dEmail) { //ENTRATA
         try {
             socket = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -203,16 +206,17 @@ public class Client {
             out.flush();
             out.writeObject(username);
             out.writeObject("delete1");
-            //out.writeObject(username);
-            out.writeObject(index);
+            out.writeObject(inbox.size()-index);
+
+            inboxContent.remove(dEmail);
 
         } catch (IOException e) {
             System.out.println("ERRORE a delete1");
-            e.printStackTrace();
         }
+        /*System.out.println("inboxSize: " + inboxContent.size());
+        System.out.println("index: " + index);*/
     }
-
-    public void socketDelete2(String username, int index) {
+    public void socketDelete2(String username, int index,Email dEmail) { //Uscita
         try {
             socket = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -220,15 +224,14 @@ public class Client {
             out.flush();
             out.writeObject(username);
             out.writeObject("delete2");
-            //out.writeObject(username);
-            out.writeObject(index);
+            out.writeObject(outbox.size()-index);
+
+            outboxContent.remove(dEmail);
 
         } catch (IOException e) {
             System.out.println("ERRORE a delete2");
-            e.printStackTrace();
         }
     }
-
     public String socketUsername() {
         try {
             socket = new Socket(InetAddress.getLocalHost(), 7);
@@ -244,7 +247,6 @@ public class Client {
 
         } catch (IOException e) {
             System.out.println("ERRORE a username");
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

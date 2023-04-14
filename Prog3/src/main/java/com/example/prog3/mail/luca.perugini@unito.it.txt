@@ -9,14 +9,17 @@ A proposito della nostra ultima conversazione
 Ricordati di comprare il latte tornando a casa
 ------------------
 lorenzo.dipalma@unito.it
+luca.perugini@unito.it
 Gelato
 ti piace il gelato?
 ------------------
 lorenzo.dipalma@unito.it
+luca.perugini@unito.it
 Ciao a tutti
 ciao
 ------------------
 lorenzo.dipalma@unito.it
+luca.perugini@unito.it antonio.adascaliti@unito.it
 ecco
 già
 ------------------
@@ -31,6 +34,22 @@ Esci?
 Volete uscire?
 ------------------
 SERVER
+luca.perugini@unito.it
 ERRORE
 Non è stato possibile mandare una mail a matteo perchè l'indirizzo è inesistente.
+------------------
+antonio.adascaliti@unito.it
+luca.perugini@unito.it daniel.botezat@unito.it
+Buona Pasqua
+Auguri
+------------------
+lorenzo.dipalma@unito.it
+luca.perugini@unito.it
+Dadi
+grande
+------------------
+luca.perugini@unito.it
+daniel.botezat@unito.it
+prova
+prova test
 ------------------

@@ -46,8 +46,8 @@
                         <Insets top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" fx:id="txtFieldDestinatario"/>
-                  <TextField GridPane.columnIndex="1" fx:id="txtFieldOggetto" GridPane.rowIndex="1">
+                  <TextField fx:id="txtFieldDestinatario" GridPane.columnIndex="1" />
+                  <TextField fx:id="txtFieldOggetto" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
@@ -71,11 +71,11 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" fx:id="btnSenderAnnulla" text="Annulla">
+                  <Button fx:id="btnSenderAnnulla" mnemonicParsing="false" text="Annulla">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin></Button>
-                  <Button alignment="CENTER" contentDisplay="CENTER" fx:id="btnSenderInvia" mnemonicParsing="false" text="Invia" textAlignment="CENTER" GridPane.columnIndex="1">
+                  <Button fx:id="btnSenderInvia" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Invia" textAlignment="CENTER" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets top="5.0" />
                      </GridPane.margin>
@@ -174,19 +174,20 @@
                         <TextArea fx:id="txtEmailContent" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="445.0" wrapText="true" BorderPane.alignment="CENTER" />
                      </center>
                      <bottom>
-                        <BorderPane prefHeight="50.0" BorderPane.alignment="CENTER">
-                           <center>
-                              <ButtonBar BorderPane.alignment="CENTER">
-                                <buttons>
-                                    <Button fx:id="btnDelete" mnemonicParsing="false" text="Elimina" />
-                                    <Button fx:id="btnNewMail" mnemonicParsing="false" text="Invia nuova mail" textAlignment="CENTER" />
-                                </buttons>
-                              </ButtonBar>
-                           </center>
+                        <ButtonBar prefHeight="50.0" prefWidth="361.0" BorderPane.alignment="CENTER">
+                          <buttons>
+                              <Button fx:id="btnDelete" mnemonicParsing="false" text="Elimina" />
+                              <Button fx:id="btnNewMail" mnemonicParsing="false" text="Invia nuova mail" textAlignment="CENTER" />
+                              <Button fx:id="btnReply" mnemonicParsing="false" text="Rispondi" />
+                              <Button fx:id="btnForward" mnemonicParsing="false" text="Inoltra" />
+                          </buttons>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
                            <padding>
-                              <Insets right="117.0" />
+                              <Insets right="15.0" />
                            </padding>
-                        </BorderPane>
+                        </ButtonBar>
                      </bottom>
                   </BorderPane>
                </children>

@@ -1,8 +1,10 @@
 daniel.botezat@unito.it
+lorenzo.dipalma@unito.it
 Importante
 È necessario che ci parliamo di persona, per com.example.prog3.mail rischiamo sempre fraintendimenti
 ------------------
 luca.perugini@unito.it
+lorenzo.dipalma@unito.it
 A proposito della nostra ultima conversazione
 Ricordati di comprare il latte tornando a casa
 ------------------
@@ -22,6 +24,7 @@ Saluti
 Ciao
 ------------------
 SERVER
+lorenzo.dipalma@unito.it
 ERRORE
 Non è stato possibile mandare una mail a jack perchè l'indirizzo è inesistente.
 ------------------
@@ -31,6 +34,7 @@ Università
 Ci sei oggi?
 ------------------
 cristina.muntianu@unito.it
+lorenzo.dipalma@unito.it
 Prova
 Prova
 ------------------
@@ -38,7 +42,6 @@ lorenzo.dipalma@unito.it
 daniel.botezat@unito.it
 Rispondimi
 come va?
-
 ------------------
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it
@@ -51,19 +54,57 @@ Ciao a tutti
 ciao
 ------------------
 SERVER
+lorenzo.dipalma@unito.it
 ERRORE
 Non è stato possibile mandare una mail a laura perchè l'indirizzo è inesistente.
 ------------------
 lorenzo.dipalma@unito.it
-luca.perugini@unito.it antonio.adascaliti@unito.it 
+luca.perugini@unito.it antonio.adascaliti@unito.it
 ecco
 già
 ------------------
 SERVER
+lorenzo.dipalma@unito.it
 ERRORE
 Non è stato possibile mandare una mail a stefano perchè l'indirizzo è inesistente.
 ------------------
 luca.perugini@unito.it
+lorenzo.dipalma@unito.it
 Dadi
 ho trovato dei dadi
+------------------
+stefano.venitucci@unito.it
+lorenzo.dipalma@unito.it daniel.botezat@unito.it
+Ho preso 30
+30!
+------------------
+cristina.muntianu@unito.it
+lorenzo.dipalma@unito.it
+prova
+prova
+------------------
+antonio.adascaliti@unito.it
+lorenzo.dipalma@unito.it daniel.botezat@unito.it
+prova
+provaa
+------------------
+antonio.adascaliti@unito.it
+lorenzo.dipalma@unito.it stefano.venitucci@unito.it
+Domani
+ci vediamo domani
+------------------
+lorenzo.dipalma@unito.it
+stefano.venitucci@unito.it
+Ho preso 30
+Anche io!
+------------------
+stefano.venitucci@unito.it
+lorenzo.dipalma@unito.it
+Nulla
+Nulla anche io
+------------------
+lorenzo.dipalma@unito.it
+luca.perugini@unito.it
+Dadi
+grande
 ------------------

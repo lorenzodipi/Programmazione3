@@ -1,12 +1,15 @@
 luca.perugini@unito.it
+daniel.botezat@unito.it
 semper
 nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
 ------------------
 stefano.venitucci@unito.it
+daniel.botezat@unito.it
 dapibus
 in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
 ------------------
 cristina.muntianu@unito.it
+daniel.botezat@unito.it
 ultricies
 nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum
 ------------------
@@ -15,17 +18,48 @@ lorenzo.dipalma@unito.it
 Importante
 È necessario che ci parliamo di persona, per com.example.prog3.mail rischiamo sempre fraintendimenti
 ------------------
-daniel.botezat@unito.it
-stefano.venitucci@unito.it
-penatibus
-et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-------------------
 lorenzo.dipalma@unito.it
+daniel.botezat@unito.it
 Rispondimi
 come va?
-
 ------------------
 luca.perugini@unito.it
+daniel.botezat@unito.it
 Esci?
 Volete uscire?
+------------------
+stefano.venitucci@unito.it
+lorenzo.dipalma@unito.it daniel.botezat@unito.it
+Ho preso 30
+30!
+------------------
+antonio.adascaliti@unito.it
+lorenzo.dipalma@unito.it daniel.botezat@unito.it
+prova
+provaa
+------------------
+lorenzo.dipalma@unito.it
+daniel.botezat@unito.it
+Ho preso 30
+30!
+------------------
+luca.perugini@unito.it
+daniel.botezat@unito.it 
+prova
+prova test
+------------------
+daniel.botezat@unito.it
+luca.perugini@unito.it 
+prova
+funziona
+------------------
+daniel.botezat@unito.it
+luca.perugini@unito.it 
+prova
+no
+------------------
+daniel.botezat@unito.it
+luca.perugini@unito.it 
+prova
+prova ancora
 ------------------

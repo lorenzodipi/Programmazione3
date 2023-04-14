@@ -4,23 +4,22 @@ ultricies
 nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum
 ------------------
 lorenzo.dipalma@unito.it
+cristina.muntianu@unito.it
 Saluti
 Ciao
 ------------------
-SERVER
-ERRORE
-Non è stato possibile mandare una mail a jack perchè l'indirizzo è inesistente.
-------------------
-cristina.muntianu@unito.it
 lorenzo.dipalma@unito.it
-Prova
-Prova
-------------------
-lorenzo.dipalma@unito.it
+luca.perugini@unito.it antonio.adascaliti@unito.it cristina.muntianu@unito.it stefano.venitucci@unito.it
 Ciao a tutti
 ciao
 ------------------
-luca.perugini@unito.it
-Esci?
-Volete uscire?
+SERVER
+cristina.muntianu@unito.it
+ERRORE
+Non è stato possibile mandare una mail a lo perchè l'indirizzo è inesistente.
+------------------
+antonio.adascaliti@unito.it
+cristina.muntianu@unito.it stefano.venitucci@unito.it 
+test
+test
 ------------------

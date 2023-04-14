@@ -1,5 +1,6 @@
 package com.example.prog3;
 
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,20 +21,20 @@ public class Server {
     //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\       papà
     ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/     mac
     //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\            mamma
-    String path = "C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
+    String path = "C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
 
     ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt     mac
     //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt       papà
     //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\\username.txt        mamma
-    String path_user ="C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\username.txt";
+    String path_user ="C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\\\username.txt";
 
     HashMap<String,File> hashMap = new HashMap<>();
 
     ArrayList<String> userList = new ArrayList<>();
 
-    //TODO: possibilità di mandare la mail a più persone
-    //TODO: migliorare log server
-    //TODO: aggiornamento automatico delle mail in entrata e uscita
+    //TODO: da controllare log server
+    //TODO: controllare bene email entrata e uscita e tutti i vari bottoni
+    //TODO: client se parte prima da problemi (legato all'username)
 
 
     Socket socket;
@@ -100,12 +101,13 @@ public class Server {
                 if(sender.equals(username)){
                     while (!myReader.nextLine().equals("------------------")){}
                 }else {
+                    String receiver = myReader.nextLine();
                     String object = myReader.nextLine();
                     String content = "";
                     String text;
                     while (!(text = myReader.nextLine()).equals("------------------"))
                         content = content + text;
-                    Email email = new Email(sender, username, object, content);
+                    Email email = new Email(sender, receiver, object, content);
 
                     server_email.add(email);
                 }
@@ -144,6 +146,70 @@ public class Server {
         return server_email;
     }
 
+    public void sendEmail(String[] m, Email send, String elenco) throws IOException {
+        if(elenco.equals("")){
+            File myObj = new File(path+username+".txt");
+            FileReader reader = new FileReader(myObj);
+            Scanner myReader = new Scanner(reader);
+            String text= "";
+
+            while(myReader.hasNextLine())
+                text = text + myReader.nextLine() +"\n";
+
+            text = text.substring(0, text.length()-1);
+
+            myReader.close();
+            reader.close();
+
+            synchronized (hashMap.get(username)){
+                FileWriter writer = new FileWriter(myObj);
+                writer.append(text).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+send.getReceiver()+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                writer.close();
+            }
+        }else {
+            for (String user : m) {
+                if(hashMap.get(user)!=null){
+
+                    File myObj = new File(path+user+".txt");
+                    FileReader reader = new FileReader(myObj);
+                    Scanner myReader = new Scanner(reader);
+                    String text= "";
+                    while(myReader.hasNextLine())
+                        text = text + myReader.nextLine() +"\n";
+                    text = text.substring(0, text.length()-1);
+                    myReader.close();
+                    reader.close();
+                    synchronized (hashMap.get(user)){
+                        FileWriter writer = new FileWriter(myObj);
+                        writer.append(text).append("\n").append(send.getSender()).append("\n").append(elenco).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
+                        writer.close();
+                    }
+
+                }
+                else {
+                    File myObj = new File(path+username+".txt");
+                    FileReader reader = new FileReader(myObj);
+                    Scanner myReader = new Scanner(reader);
+                    String text= "";
+
+                    while(myReader.hasNextLine())
+                        text = text + myReader.nextLine() +"\n";
+
+                    text = text.substring(0, text.length()-1);
+
+                    myReader.close();
+                    reader.close();
+
+                    synchronized (hashMap.get(username)){
+                        FileWriter writer = new FileWriter(myObj);
+                        writer.append(text).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+user+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                        writer.close();
+                    }
+                }
+            }
+        }
+
+    }
     class ThreadUser implements Runnable {
         ObjectOutputStream out;
         public ThreadUser(ObjectOutputStream out){
@@ -165,12 +231,11 @@ public class Server {
                 username = userList.get(rand.nextInt(userList.size()));
                 out.writeObject(username);
 
-                logList.add(username+" ha fatto l'accesso.");
+                Platform.runLater(() -> logList.add(username+" ha fatto l'accesso."));
+                //logList.add(username+" ha fatto l'accesso.");
 
-                //return userList.get(rand.nextInt(userList.size()));
             } catch (FileNotFoundException e) {
                 System.out.println("An error occurred.");
-                e.printStackTrace();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -194,7 +259,6 @@ public class Server {
 
             } catch (IOException e) {
                 System.out.println("ERRORE NEL MANDARE ELENCO MAIL ENTRATA");
-                e.printStackTrace();
             }
 
         }
@@ -213,7 +277,6 @@ public class Server {
                 out.writeObject(server_email);
             } catch (IOException e) {
                 System.out.println("ERRORE NEL MANDARE ELENCO MAIL USCITA");
-                e.printStackTrace();
             }
 
         }
@@ -230,87 +293,24 @@ public class Server {
         @Override
         public void run() {
             try {
-                boolean a = true;
-                String[] m = send.getReceiver().split("[\\s,;]+");
+                String p = send.getReceiver()+" "+username;
+                String[] m = p.split("[\\s,;]+");
                 String elenco = "";
                 for (String r : m) {
-                    if(hashMap.get(r)!=null)
+                    if(hashMap.get(r)!=null && !r.equals(m[m.length-1]))
                         elenco = elenco + r + " ";
                 }
+                sendEmail(m,send,elenco);
 
-
-                for (String receiver : m) {
-                    if(hashMap.get(receiver)!=null){
-                        File myObj = new File(path+receiver+".txt");        //file di chi lo sta ricevendo
-                        FileReader reader = new FileReader(myObj);
-                        Scanner myReader = new Scanner(reader);
-                        String text= "";
-
-                        while(myReader.hasNextLine())
-                            text = text + myReader.nextLine() +"\n";
-
-                        text = text.substring(0, text.length()-1);
-
-                        myReader.close();
-                        reader.close();
-
-                        synchronized (hashMap.get(username)){
-                            FileWriter writer = new FileWriter(myObj);
-                            writer.append(text).append("\n").append(send.getSender()).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
-                            writer.close();
-                        }
-
-                        logList.add(username+" ha inviato una mail a "+receiver+".");
-
-                        if(a){
-                            myObj = new File(path+send.getSender()+".txt");       //file di chi lo sta mandando
-                            reader = new FileReader(myObj);
-                            myReader = new Scanner(reader);
-                            text= "";
-
-                            while(myReader.hasNextLine())
-                                text = text + myReader.nextLine() +"\n";
-
-                            text = text.substring(0, text.length()-1);
-
-                            myReader.close();
-                            reader.close();
-
-                            synchronized (hashMap.get(receiver)){
-                                FileWriter writer = new FileWriter(myObj);
-                                writer.append(text).append("\n").append(send.getSender()).append("\n").append(elenco).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
-                                writer.close();
-                            }
-                            a = false;
-                        }
-
-                    }
-                    else {
-                        File myObj = new File(path+send.getSender()+".txt");
-                        FileReader reader = new FileReader(myObj);
-                        Scanner myReader = new Scanner(reader);
-                        String text= "";
-
-                        while(myReader.hasNextLine())
-                            text = text + myReader.nextLine() +"\n";
-
-                        text = text.substring(0, text.length()-1);
-
-                        myReader.close();
-                        reader.close();
-
-                        synchronized (hashMap.get(username)){
-                            FileWriter writer = new FileWriter(myObj);
-                            writer.append(text).append("\n").append("SERVER").append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+receiver+" perchè l'indirizzo è inesistente.").append("\n------------------");
-                            writer.close();
-                        }
-                    }
-                }
-
+                //logList.add(username+" ha inviato una mail a "+send.getReceiver()+".");
+                Platform.runLater(() -> logList.add(username+" ha inviato una mail a "+send.getReceiver()+"."));
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
+
+
 
         }
     }
@@ -331,7 +331,7 @@ public class Server {
                     FileReader reader = new FileReader(myObj);
                     Scanner myReader = new Scanner(reader);
 
-                    int i = 0;
+                    int i = 1;
                     String testo = "";
                     while ( myReader.hasNextLine()) {
                         String sender = myReader.nextLine();
@@ -356,6 +356,10 @@ public class Server {
                     FileWriter writer = new FileWriter(myObj);
                     writer.write(testo);
                     writer.close();
+
+                    Platform.runLater(() -> logList.add(username+" ha cancellato una mail."));
+
+
 
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
@@ -384,7 +388,7 @@ public class Server {
                     FileReader reader = new FileReader(myObj);
                     Scanner myReader = new Scanner(reader);
 
-                    int i = 0;
+                    int i = 1;
                     String testo = "";
                     while ( myReader.hasNextLine()) {
                         String sender = myReader.nextLine();
@@ -410,6 +414,8 @@ public class Server {
                     writer.write(testo);
                     writer.close();
 
+                    Platform.runLater(() -> logList.add(username+" ha cancellato una mail."));
+
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -430,7 +436,7 @@ public class Server {
                 try {
 
                     socket = s.accept();
-                    System.out.println("Accettato socket " + socket);
+                    System.out.println("Accettato socket ");
                     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                     out.flush();
                     in = new ObjectInputStream(socket.getInputStream());
@@ -471,7 +477,6 @@ public class Server {
                     }
                 }catch (Exception e){
                     System.out.println("ERRORE AAAA");
-                    e.printStackTrace();
                 }
             }
 

@@ -4,14 +4,42 @@ Tanto va la gatta al lardo
 L'appuntamento è per domani alle 9, ci vediamo al solito posto
 ------------------
 lorenzo.dipalma@unito.it
+antonio.adascaliti@unito.it
 Università
 Ci sei oggi?
 ------------------
 lorenzo.dipalma@unito.it
+luca.perugini@unito.it antonio.adascaliti@unito.it cristina.muntianu@unito.it stefano.venitucci@unito.it
 Ciao a tutti
 ciao
 ------------------
 lorenzo.dipalma@unito.it
+luca.perugini@unito.it antonio.adascaliti@unito.it
 ecco
 già
+------------------
+antonio.adascaliti@unito.it
+luca.perugini@unito.it daniel.botezat@unito.it
+Buona Pasqua
+Auguri
+------------------
+SERVER
+antonio.adascaliti@unito.it
+ERRORE
+Non è stato possibile mandare una mail a las perchè l'indirizzo è inesistente.
+------------------
+antonio.adascaliti@unito.it
+lorenzo.dipalma@unito.it daniel.botezat@unito.it 
+prova
+provaa
+------------------
+SERVER
+antonio.adascaliti@unito.it
+ERRORE
+Non è stato possibile mandare una mail a las perchè l'indirizzo è inesistente.
+------------------
+antonio.adascaliti@unito.it
+lorenzo.dipalma@unito.it stefano.venitucci@unito.it
+Domani
+ci vediamo domani
 ------------------
