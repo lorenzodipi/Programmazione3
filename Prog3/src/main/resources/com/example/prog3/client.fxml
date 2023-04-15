@@ -73,11 +73,11 @@
                <children>
                   <Button fx:id="btnSenderAnnulla" mnemonicParsing="false" text="Annulla">
                      <GridPane.margin>
-                        <Insets top="5.0" />
+                        <Insets bottom="5.0" top="5.0" />
                      </GridPane.margin></Button>
                   <Button fx:id="btnSenderInvia" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Invia" textAlignment="CENTER" GridPane.columnIndex="1">
                      <GridPane.margin>
-                        <Insets top="5.0" />
+                        <Insets bottom="5.0" top="5.0" />
                      </GridPane.margin>
                   </Button>
                </children>
@@ -195,4 +195,14 @@
          </items>
       </SplitPane>
    </center>
+   <bottom>
+      <Label fx:id="errorLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </Label>
+   </bottom>
 </BorderPane>

@@ -13,20 +13,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class ClientController {
-
-    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\       papà
-    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/     mac
-    //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\            mamma
-    String path = "C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
-
-
-    ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt     mac
-    //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt       papà
-    //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\\username.txt        mamma
-    String path_user ="C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\\\username.txt";
-
     @FXML
     private Label lblFrom;
+    @FXML
+    private Label errorLabel;
     @FXML
     private Label lblTo;
     @FXML
@@ -68,7 +58,6 @@ public class ClientController {
     private Client model;
     private Email selectedEmail;
     private Email emptyEmail;
-    private String email;
     private int casella;
 
     @FXML
@@ -77,7 +66,10 @@ public class ClientController {
             throw new IllegalStateException("Model can only be initialized once");
 
         model = new Client();
-        email = model.getEmailAddress();
+
+        lblUsername.textProperty().bind(model.getUser());
+
+        errorLabel.setText("");
 
         onClickEntrata(null);
 
@@ -92,12 +84,6 @@ public class ClientController {
         btnForward.setOnMouseClicked(this::onClickForward);
     }
     private void showSelectedEmail(MouseEvent mouseEvent) {
-        Email email = lstEmails.getSelectionModel().getSelectedItem();
-        selectedEmail = email;
-        updateDetailView(email);
-        model.selectedItem(lstEmails.getSelectionModel().getSelectedIndex());
-    }
-    private void showSelectedEmailUscita(MouseEvent mouseEvent) {
         Email email = lstEmails.getSelectionModel().getSelectedItem();
         selectedEmail = email;
         updateDetailView(email);
@@ -134,10 +120,10 @@ public class ClientController {
     }
     private void onClickDelete(MouseEvent mouseEvent){
         if (casella == 1){
-            model.socketDelete2(email,lstEmails.getSelectionModel().getSelectedIndex(),lstEmails.getSelectionModel().getSelectedItem());
+            model.socketDelete2(lblUsername.getText(),lstEmails.getSelectionModel().getSelectedIndex(),lstEmails.getSelectionModel().getSelectedItem());
             onClickUscita(null);
         } else {
-            model.socketDelete1(email,lstEmails.getSelectionModel().getSelectedIndex(),lstEmails.getSelectionModel().getSelectedItem());
+            model.socketDelete1(lblUsername.getText(),lstEmails.getSelectionModel().getSelectedIndex(),lstEmails.getSelectionModel().getSelectedItem());
             onClickEntrata(null);
         }
     }
@@ -166,9 +152,9 @@ public class ClientController {
             txtAreaSender.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
         }
 
-        if(!destinatario.equals("") && !destinatario.equals(email) && !oggetto.equals("") && !testo.equals("")){
+        if(!destinatario.equals("") && !destinatario.equals(lblUsername.getText()) && !oggetto.equals("") && !testo.equals("")){
 
-            model.socketSend(email,destinatario,oggetto,testo);
+            model.socketSend(lblUsername.getText(),destinatario,oggetto,testo);
             onClickEntrata(null);
         }
 
@@ -177,14 +163,13 @@ public class ClientController {
 
         casella = 0;
 
-        //model.socketEntrata(email);
 
         lblFrom.setText("");
         lblTo.setText("");
         lblSubject.setText("");
         txtEmailContent.setText("");
 
-        lblUsername.textProperty().bind(model.emailAddressProperty());
+        errorLabel.textProperty().bind(model.getError());
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
         selectedEmail = null;
         lstEmails.itemsProperty().bind(model.inboxProperty());
@@ -199,14 +184,14 @@ public class ClientController {
     private void onClickUscita(MouseEvent mouseEvent) {
         casella = 1;
 
-        model.socketUscita(email);
+        model.socketUscita(lblUsername.getText());
 
         lblFrom.setText("");
         lblTo.setText("");
         lblSubject.setText("");
         txtEmailContent.setText("");
 
-        lblUsername.textProperty().bind(model.emailAddressProperty());
+        errorLabel.textProperty().bind(model.getError());
         txtEmailContent.setStyle("-fx-focus-color: -fx-control-inner-background ; -fx-faint-focus-color: -fx-control-inner-background ;");
         selectedEmail = null;
 

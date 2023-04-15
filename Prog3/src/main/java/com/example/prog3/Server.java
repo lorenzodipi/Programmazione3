@@ -27,22 +27,13 @@ public class Server {
     //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt       papà
     //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\\username.txt        mamma
     String path_user ="C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\\\username.txt";
-
     HashMap<String,File> hashMap = new HashMap<>();
-
     ArrayList<String> userList = new ArrayList<>();
-
-    //TODO: da controllare log server
-    //TODO: controllare bene email entrata e uscita e tutti i vari bottoni
-    //TODO: client se parte prima da problemi (legato all'username)
-
-
     Socket socket;
     ServerSocket s;
     ObjectInputStream in;
     ArrayList<Email> server_email;
     private ListProperty<String> logList;
-
     private ObservableList<String> logListContent;
     String username;
 
@@ -232,7 +223,6 @@ public class Server {
                 out.writeObject(username);
 
                 Platform.runLater(() -> logList.add(username+" ha fatto l'accesso."));
-                //logList.add(username+" ha fatto l'accesso.");
 
             } catch (FileNotFoundException e) {
                 System.out.println("An error occurred.");
@@ -302,7 +292,6 @@ public class Server {
                 }
                 sendEmail(m,send,elenco);
 
-                //logList.add(username+" ha inviato una mail a "+send.getReceiver()+".");
                 Platform.runLater(() -> logList.add(username+" ha inviato una mail a "+send.getReceiver()+"."));
 
             } catch (IOException e) {
