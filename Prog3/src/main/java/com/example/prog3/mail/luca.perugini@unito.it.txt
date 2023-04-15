@@ -1,55 +1,78 @@
+15-04-2023 11:41:49
 luca.perugini@unito.it
 daniel.botezat@unito.it
 semper
 nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
 ------------------
+15-04-2023 11:41:49
 luca.perugini@unito.it
 lorenzo.dipalma@unito.it
 A proposito della nostra ultima conversazione
 Ricordati di comprare il latte tornando a casa
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it
 Gelato
 ti piace il gelato?
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it
 Ciao a tutti
 ciao
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it antonio.adascaliti@unito.it
 ecco
 già
 ------------------
+15-04-2023 11:41:49
 luca.perugini@unito.it
 lorenzo.dipalma@unito.it stefano.venitucci@unito.it 
 Dadi
 ho trovato dei dadi
 ------------------
+15-04-2023 11:41:49
 luca.perugini@unito.it
 daniel.botezat@unito.it cristina.muntianu@unito.it 
 Esci?
 Volete uscire?
 ------------------
+15-04-2023 11:41:49
 SERVER
 luca.perugini@unito.it
 ERRORE
 Non è stato possibile mandare una mail a matteo perchè l'indirizzo è inesistente.
 ------------------
+15-04-2023 11:41:49
 antonio.adascaliti@unito.it
 luca.perugini@unito.it daniel.botezat@unito.it
 Buona Pasqua
 Auguri
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it
 Dadi
 grande
 ------------------
+15-04-2023 11:41:49
 luca.perugini@unito.it
 daniel.botezat@unito.it
 prova
 prova test
+------------------
+15-04-2023 11:41:49
+lorenzo.dipalma@unito.it
+luca.perugini@unito.it 
+Dadi
+Grande!
+------------------
+15-04-2023 12:18:05
+daniel.botezat@unito.it
+luca.perugini@unito.it 
+Esci?
+domani
 ------------------

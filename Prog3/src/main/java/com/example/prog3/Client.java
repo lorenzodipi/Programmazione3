@@ -22,6 +22,8 @@ public class Client {
     private ListProperty<Email> outbox;
     private ObservableList<Email> outboxContent;
     String username = "";
+    Thread t1;
+    boolean running = true;
 
     public Client() {
         this.inboxContent = FXCollections.observableList(new LinkedList<>());
@@ -31,10 +33,10 @@ public class Client {
         this.outbox = new SimpleListProperty<>(outboxContent);
 
 
-        new Thread(new Runnable() {
+        t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true){
+                while (running){
                     try {
                         while (username.isEmpty())
                             socketUsername();
@@ -42,11 +44,15 @@ public class Client {
                         socketUscita(username);
                         Thread.sleep(10000);
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        //throw new RuntimeException(e);
+                        System.out.println("Chiusura thread");
+
                     }
                 }
             }
-        }).start();
+        });
+
+        t1.start();
 
         inboxContent.addListener(new ListChangeListener<Email>() {
             @Override
@@ -67,7 +73,6 @@ public class Client {
     public ObjectProperty<String> getUser(){
         return user;
     }
-
     public void setError(String e){
         Platform.runLater(() -> error.set(e));
     }
@@ -90,11 +95,13 @@ public class Client {
                 if(inbox.size()==0){
                     inboxContent.addAll(em);
                     Collections.reverse(inboxContent);
+                    setError("Mail aggiornate");
                 }else{
                     for (int i = 0; i < em.size()-size; i++) {
                         inboxContent.add(em.get(inbox.size()+i));
                     }
                     Collections.reverse(inboxContent);
+                    setError("Mail aggiornate");
                 }
 
             }
@@ -234,7 +241,6 @@ public class Client {
     }
     public void socketUsername() {
             try {
-                System.out.println("Dentro inizio "+username);
                 socket = new Socket(InetAddress.getLocalHost(), 7);
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 
@@ -246,12 +252,27 @@ public class Client {
                 username = (String) in.readObject();
 
                 setError("");
-                System.out.println("Dentro fine "+username);
             } catch (IOException | ClassNotFoundException e) {
                 System.out.println("ERRORE a username");
                 setError("Errore di connessione al server!");
             }
-        System.out.println("Fuori "+username);
         setUser(username);
+    }
+
+    public void disconnect() {
+        try {
+            socket = new Socket(InetAddress.getLocalHost(), 7);
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+            out.flush();
+            out.writeObject(username);
+            out.writeObject("disconnect");
+
+            running = false;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

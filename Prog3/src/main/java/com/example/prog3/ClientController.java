@@ -11,6 +11,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClientController {
     @FXML
@@ -39,6 +41,8 @@ public class ClientController {
     private Button btnSender;
     @FXML
     private Button btnReply;
+    @FXML
+    private Button btnReplyAll;
     @FXML
     private Button btnForward;
     @FXML
@@ -81,6 +85,7 @@ public class ClientController {
         btnSenderInvia.setOnMouseClicked(this::onClickSendEmail);
         btnDelete.setOnMouseClicked(this::onClickDelete);
         btnReply.setOnMouseClicked(this::onClickReply);
+        btnReplyAll.setOnMouseClicked(this::onClickReplyAll);
         btnForward.setOnMouseClicked(this::onClickForward);
     }
     private void showSelectedEmail(MouseEvent mouseEvent) {
@@ -93,6 +98,12 @@ public class ClientController {
         txtFieldDestinatario.clear();
         txtFieldOggetto.clear();
         txtAreaSender.clear();
+
+        txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+        txtFieldDestinatario.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        txtFieldOggetto.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+        txtFieldOggetto.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        txtAreaSender.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
 
         txtFieldDestinatario.setEditable(true);
         txtFieldOggetto.setEditable(true);
@@ -131,6 +142,11 @@ public class ClientController {
         String destinatario = txtFieldDestinatario.getText();
         String oggetto = txtFieldOggetto.getText();
         String testo = txtAreaSender.getText();
+        String regex = "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(destinatario);
+        boolean er = true;
+
 
         if(destinatario.isEmpty()){
             txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(4), new BorderWidths(1))));
@@ -152,8 +168,20 @@ public class ClientController {
             txtAreaSender.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
         }
 
-        if(!destinatario.equals("") && !destinatario.equals(lblUsername.getText()) && !oggetto.equals("") && !testo.equals("")){
+        if(!matcher.matches()){
+            er = false;
+            model.setError("Email sintatticamente errata");
+            txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(4), new BorderWidths(1))));
+            txtFieldDestinatario.setBackground(new Background(new BackgroundFill(new Color(Color.RED.getRed(),0,0,0.1), CornerRadii.EMPTY, Insets.EMPTY)));
+        }else {
+            er = true;
+            model.setError("");
+            txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+            txtFieldDestinatario.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        }
 
+
+        if(!destinatario.equals("") && !destinatario.equals(lblUsername.getText()) && !oggetto.equals("") && !testo.equals("") && er){
             model.socketSend(lblUsername.getText(),destinatario,oggetto,testo);
             onClickEntrata(null);
         }
@@ -206,7 +234,38 @@ public class ClientController {
             txtFieldOggetto.clear();
             txtAreaSender.clear();
 
+            txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+            txtFieldDestinatario.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            txtFieldOggetto.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+            txtFieldOggetto.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            txtAreaSender.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+
             txtFieldDestinatario.setText(lblFrom.getText());
+            txtFieldOggetto.setText(lblSubject.getText());
+
+            txtFieldDestinatario.setEditable(false);
+            txtFieldOggetto.setEditable(false);
+
+            gridPaneSender.setManaged(true);
+            gridPaneSender.setVisible(true);
+            splitPane.setManaged(false);
+            splitPane.setVisible(false);
+
+        }
+    }
+    private void onClickReplyAll(MouseEvent mouseEvent){
+        if(!lblFrom.getText().isEmpty() || !lblTo.getText().isEmpty() || !lblSubject.getText().isEmpty() || !txtEmailContent.getText().isEmpty()){
+            txtFieldDestinatario.clear();
+            txtFieldOggetto.clear();
+            txtAreaSender.clear();
+
+            txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+            txtFieldDestinatario.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            txtFieldOggetto.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+            txtFieldOggetto.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            txtAreaSender.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+
+            txtFieldDestinatario.setText(lblFrom.getText() + " " + lblTo.getText().replace(lblUsername.getText(), ""));
             txtFieldOggetto.setText(lblSubject.getText());
 
             txtFieldDestinatario.setEditable(false);
@@ -225,6 +284,12 @@ public class ClientController {
             txtFieldOggetto.clear();
             txtAreaSender.clear();
 
+            txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+            txtFieldDestinatario.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            txtFieldOggetto.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+            txtFieldOggetto.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            txtAreaSender.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+
             txtAreaSender.setText(txtEmailContent.getText());
             txtFieldOggetto.setText(lblSubject.getText());
 
@@ -240,4 +305,7 @@ public class ClientController {
         }
     }
 
+    public void closeConnection() {
+        model.disconnect();
+    }
 }

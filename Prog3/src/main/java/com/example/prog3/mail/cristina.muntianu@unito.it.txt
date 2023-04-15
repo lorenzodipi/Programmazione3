@@ -1,25 +1,36 @@
+15-04-2023 11:41:49
 cristina.muntianu@unito.it
 daniel.botezat@unito.it
 ultricies
 nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 cristina.muntianu@unito.it
 Saluti
 Ciao
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it antonio.adascaliti@unito.it cristina.muntianu@unito.it stefano.venitucci@unito.it
 Ciao a tutti
 ciao
 ------------------
+15-04-2023 11:41:49
 SERVER
 cristina.muntianu@unito.it
 ERRORE
 Non è stato possibile mandare una mail a lo perchè l'indirizzo è inesistente.
 ------------------
+15-04-2023 11:41:49
 antonio.adascaliti@unito.it
 cristina.muntianu@unito.it stefano.venitucci@unito.it 
 test
 test
+------------------
+15-04-2023 12:20:33
+daniel.botezat@unito.it
+cristina.muntianu@unito.it 
+ultricies
+abcdefgh
 ------------------

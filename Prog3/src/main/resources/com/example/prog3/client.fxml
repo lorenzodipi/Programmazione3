@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="722.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.prog3.ClientController">
    <top>
@@ -115,7 +116,7 @@
                   </HBox>
                </top>
                <center>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <BorderPane prefHeight="104.0" prefWidth="241.0" BorderPane.alignment="CENTER">
                      <center>
                         <ListView fx:id="lstEmails" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
@@ -176,16 +177,33 @@
                      <bottom>
                         <ButtonBar prefHeight="50.0" prefWidth="361.0" BorderPane.alignment="CENTER">
                           <buttons>
-                              <Button fx:id="btnDelete" mnemonicParsing="false" text="Elimina" />
-                              <Button fx:id="btnNewMail" mnemonicParsing="false" text="Invia nuova mail" textAlignment="CENTER" />
-                              <Button fx:id="btnReply" mnemonicParsing="false" text="Rispondi" />
-                              <Button fx:id="btnForward" mnemonicParsing="false" text="Inoltra" />
+                              <Button fx:id="btnDelete" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="30.0" text="Elimina">
+                                 <font>
+                                    <Font name="System Bold" size="10.0" />
+                                 </font></Button>
+                              <Button fx:id="btnNewMail" mnemonicParsing="false" text="Nuova" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="10.0" />
+                                 </font></Button>
+                              <Button fx:id="btnReply" mnemonicParsing="false" text="Rispondi">
+                                 <font>
+                                    <Font name="System Bold" size="10.0" />
+                                 </font></Button>
+                              <Button fx:id="btnForward" mnemonicParsing="false" text="Inoltra">
+                                 <font>
+                                    <Font name="System Bold" size="10.0" />
+                                 </font></Button>
+                              <Button fx:id="btnReplyAll" mnemonicParsing="false" text="Rispondi a tutti">
+                                 <font>
+                                    <Font name="System Bold" size="10.0" />
+                                 </font>
+                              </Button>
                           </buttons>
                            <BorderPane.margin>
                               <Insets />
                            </BorderPane.margin>
                            <padding>
-                              <Insets right="15.0" />
+                              <Insets left="-15.0" right="10.0" />
                            </padding>
                         </ButtonBar>
                      </bottom>

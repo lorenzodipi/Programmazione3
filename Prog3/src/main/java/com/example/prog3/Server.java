@@ -11,6 +11,8 @@ import javafx.collections.ObservableList;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -36,6 +38,8 @@ public class Server {
     private ListProperty<String> logList;
     private ObservableList<String> logListContent;
     String username;
+
+    //TODO: aggiungere uscita di una persona nei log
 
     public Server(){
         try {
@@ -88,6 +92,7 @@ public class Server {
             FileReader reader = new FileReader(myObj);
             Scanner myReader = new Scanner(reader);
             while (myReader.hasNextLine()) {
+                String date = myReader.nextLine();
                 String sender = myReader.nextLine();
                 if(sender.equals(username)){
                     while (!myReader.nextLine().equals("------------------")){}
@@ -117,6 +122,7 @@ public class Server {
             Scanner myReader = new Scanner(reader);
 
             while (myReader.hasNextLine()) {
+                String date = myReader.nextLine();
                 String sender = myReader.nextLine();
                 if(!sender.equals(username)){
                     while (!myReader.nextLine().equals("------------------")){}
@@ -152,9 +158,13 @@ public class Server {
             myReader.close();
             reader.close();
 
+
             synchronized (hashMap.get(username)){
+                LocalDateTime datetime = LocalDateTime.now();
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                String formattedDateTime = datetime.format(format);
                 FileWriter writer = new FileWriter(myObj);
-                writer.append(text).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+send.getReceiver()+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                writer.append(text).append("\n").append(formattedDateTime).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+send.getReceiver()+" perchè l'indirizzo è inesistente.").append("\n------------------");
                 writer.close();
             }
         }else {
@@ -170,9 +180,15 @@ public class Server {
                     text = text.substring(0, text.length()-1);
                     myReader.close();
                     reader.close();
+
+
+
                     synchronized (hashMap.get(user)){
+                        LocalDateTime datetime = LocalDateTime.now();
+                        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                        String formattedDateTime = datetime.format(format);
                         FileWriter writer = new FileWriter(myObj);
-                        writer.append(text).append("\n").append(send.getSender()).append("\n").append(elenco).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
+                        writer.append(text).append("\n").append(formattedDateTime).append("\n").append(send.getSender()).append("\n").append(elenco).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
                         writer.close();
                     }
 
@@ -192,8 +208,11 @@ public class Server {
                     reader.close();
 
                     synchronized (hashMap.get(username)){
+                        LocalDateTime datetime = LocalDateTime.now();
+                        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                        String formattedDateTime = datetime.format(format);
                         FileWriter writer = new FileWriter(myObj);
-                        writer.append(text).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+user+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                        writer.append(text).append("\n").append(formattedDateTime).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+user+" perchè l'indirizzo è inesistente.").append("\n------------------");
                         writer.close();
                     }
                 }
@@ -460,6 +479,10 @@ public class Server {
                             executor.execute(new ThreadDelete2(out, index2));
                             break;
 
+                        case "disconnect":
+                            Platform.runLater(() -> logList.add(username+" si è disconnesso."));
+                            break;
+
                         default:
                             System.out.println("default");
                             break;
@@ -468,7 +491,6 @@ public class Server {
                     System.out.println("ERRORE AAAA");
                 }
             }
-
         }
     }
 }

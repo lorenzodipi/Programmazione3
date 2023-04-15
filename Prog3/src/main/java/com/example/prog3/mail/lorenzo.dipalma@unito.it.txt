@@ -1,110 +1,138 @@
+15-04-2023 11:41:49
 daniel.botezat@unito.it
 lorenzo.dipalma@unito.it
 Importante
 È necessario che ci parliamo di persona, per com.example.prog3.mail rischiamo sempre fraintendimenti
 ------------------
+15-04-2023 11:41:49
 luca.perugini@unito.it
 lorenzo.dipalma@unito.it
 A proposito della nostra ultima conversazione
 Ricordati di comprare il latte tornando a casa
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 stefano.venitucci@unito.it
 Lorem ipsum
 dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 stefano.venitucci@unito.it
 Nulla
 consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 cristina.muntianu@unito.it
 Saluti
 Ciao
 ------------------
+15-04-2023 11:41:49
 SERVER
 lorenzo.dipalma@unito.it
 ERRORE
 Non è stato possibile mandare una mail a jack perchè l'indirizzo è inesistente.
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 antonio.adascaliti@unito.it
 Università
 Ci sei oggi?
 ------------------
+15-04-2023 11:41:49
 cristina.muntianu@unito.it
 lorenzo.dipalma@unito.it
 Prova
 Prova
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 daniel.botezat@unito.it
 Rispondimi
 come va?
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it
 Gelato
 ti piace il gelato?
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it antonio.adascaliti@unito.it cristina.muntianu@unito.it stefano.venitucci@unito.it
 Ciao a tutti
 ciao
 ------------------
+15-04-2023 11:41:49
 SERVER
 lorenzo.dipalma@unito.it
 ERRORE
 Non è stato possibile mandare una mail a laura perchè l'indirizzo è inesistente.
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it antonio.adascaliti@unito.it
 ecco
 già
 ------------------
+15-04-2023 11:41:49
 SERVER
 lorenzo.dipalma@unito.it
 ERRORE
 Non è stato possibile mandare una mail a stefano perchè l'indirizzo è inesistente.
 ------------------
+15-04-2023 11:41:49
 luca.perugini@unito.it
 lorenzo.dipalma@unito.it
 Dadi
 ho trovato dei dadi
 ------------------
+15-04-2023 11:41:49
 stefano.venitucci@unito.it
 lorenzo.dipalma@unito.it daniel.botezat@unito.it
 Ho preso 30
 30!
 ------------------
+15-04-2023 11:41:49
 cristina.muntianu@unito.it
 lorenzo.dipalma@unito.it
 prova
 prova
 ------------------
+15-04-2023 11:41:49
 antonio.adascaliti@unito.it
 lorenzo.dipalma@unito.it daniel.botezat@unito.it
 prova
 provaa
 ------------------
+15-04-2023 11:41:49
 antonio.adascaliti@unito.it
 lorenzo.dipalma@unito.it stefano.venitucci@unito.it
 Domani
 ci vediamo domani
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 stefano.venitucci@unito.it
 Ho preso 30
 Anche io!
 ------------------
+15-04-2023 11:41:49
 stefano.venitucci@unito.it
 lorenzo.dipalma@unito.it
 Nulla
 Nulla anche io
 ------------------
+15-04-2023 11:41:49
 lorenzo.dipalma@unito.it
 luca.perugini@unito.it
 Dadi
 grande
+------------------
+15-04-2023 11:41:49
+lorenzo.dipalma@unito.it
+luca.perugini@unito.it 
+Dadi
+Grande!
 ------------------
