@@ -39,7 +39,6 @@ public class Server {
     private ObservableList<String> logListContent;
     String username;
 
-    //TODO: aggiungere uscita di una persona nei log
 
     public Server(){
         try {
