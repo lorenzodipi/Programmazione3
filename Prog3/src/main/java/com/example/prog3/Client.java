@@ -24,7 +24,6 @@ public class Client {
     String username = "";
     Thread t1;
     boolean running = true;
-
     public Client() {
         this.inboxContent = FXCollections.observableList(new LinkedList<>());
         this.inbox = new SimpleListProperty<>(inboxContent);
@@ -66,7 +65,6 @@ public class Client {
             }
         });
     }
-
     public ObjectProperty<String> getError(){
         return error;
     }
@@ -87,7 +85,7 @@ public class Client {
     }
     public void setEmail(ArrayList<Email> em,int c) throws IOException {
 
-        if(c==0)
+        /*if(c==0)
             Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -97,13 +95,16 @@ public class Client {
                     Collections.reverse(inboxContent);
                     setError("Mail aggiornate");
                 }else{
+                    System.out.println("em.size()-size: "+(em.size()-size));
+                    System.out.println("em.size(): "+em.size());
+                    Collections.reverse(inboxContent);
                     for (int i = 0; i < em.size()-size; i++) {
+                        //if(em.size()>(inbox.size()+i))
                         inboxContent.add(em.get(inbox.size()+i));
                     }
                     Collections.reverse(inboxContent);
                     setError("Mail aggiornate");
                 }
-
             }
         });
         else
@@ -115,19 +116,35 @@ public class Client {
                         outboxContent.addAll(em);
                         Collections.reverse(outboxContent);
                     }else{
+                        System.out.println("em.size()-size: "+(em.size()-size));
+                        System.out.println("em.size(): "+em.size());
                         for (int i = 0; i < em.size()-size; i++) {
-                            outboxContent.add(em.get(outbox.size()+i));
+                            if(em.size()>(outbox.size()+i))
+                                outboxContent.add(em.get(outbox.size()+i));
                         }
                         Collections.reverse(outboxContent);
                     }
-
-                    /*outboxContent.clear();
-                    if (!em.isEmpty()) {
-                        for (Email email : em) {
-                            outboxContent.add(email);
-                        }
-                    }*/
                 }
+            });*/
+        if(c==0)
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    inbox.clear();
+                    inbox.addAll(em);
+                    Collections.reverse(inbox);
+                    setError("Mail aggiornate");
+                }
+            });
+        else
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    outbox.clear();
+                    outbox.addAll(em);
+                    Collections.reverse(outbox);
+                    setError("Mail aggiornate");
+                    }
             });
 
     }
@@ -258,7 +275,6 @@ public class Client {
             }
         setUser(username);
     }
-
     public void disconnect() {
         try {
             socket = new Socket(InetAddress.getLocalHost(), 7);
@@ -275,4 +291,5 @@ public class Client {
         }
 
     }
+
 }

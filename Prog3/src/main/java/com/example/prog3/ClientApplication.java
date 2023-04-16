@@ -23,7 +23,6 @@ public class ClientApplication extends Application {
     }
     @Override
     public void stop() throws Exception {
-        // chiamiamo il metodo del controller al momento della chiusura della finestra
         clientController.closeConnection();
         super.stop();
     }

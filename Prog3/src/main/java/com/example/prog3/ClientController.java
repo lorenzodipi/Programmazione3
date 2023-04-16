@@ -65,7 +65,7 @@ public class ClientController {
     private int casella;
 
     @FXML
-    protected void initialize() throws IOException {
+    protected void initialize(){
         if (this.model != null)
             throw new IllegalStateException("Model can only be initialized once");
 
@@ -180,8 +180,7 @@ public class ClientController {
             txtFieldDestinatario.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
-
-        if(!destinatario.equals("") && !destinatario.equals(lblUsername.getText()) && !oggetto.equals("") && !testo.equals("") && er){
+        if(!destinatario.isEmpty() && !destinatario.equals(lblUsername.getText()) && !oggetto.isEmpty() && !testo.isEmpty() && er){
             model.socketSend(lblUsername.getText(),destinatario,oggetto,testo);
             onClickEntrata(null);
         }
@@ -304,7 +303,6 @@ public class ClientController {
 
         }
     }
-
     public void closeConnection() {
         model.disconnect();
     }

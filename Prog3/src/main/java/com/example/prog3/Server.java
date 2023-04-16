@@ -9,6 +9,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
@@ -38,6 +39,7 @@ public class Server {
     private ListProperty<String> logList;
     private ObservableList<String> logListContent;
     String username;
+    boolean running;
 
 
     public Server(){
@@ -219,6 +221,24 @@ public class Server {
         }
 
     }
+
+    public void close() {
+        try {
+            running = false;
+            Socket close = new Socket(InetAddress.getLocalHost(), 7);
+            ObjectOutputStream out = new ObjectOutputStream(close.getOutputStream());
+
+            out.flush();
+            out.writeObject("");
+            out.writeObject("close");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+    }
+
     class ThreadUser implements Runnable {
         ObjectOutputStream out;
         public ThreadUser(ObjectOutputStream out){
@@ -341,12 +361,13 @@ public class Server {
                     int i = 1;
                     String testo = "";
                     while ( myReader.hasNextLine()) {
+                        String date = myReader.nextLine();
                         String sender = myReader.nextLine();
 
                         if(i != index || sender.equals(username)){
                             if (!sender.equals(username))
                                 i = i + 1;
-                            testo = testo + sender + "\n";
+                            testo = testo + date + "\n" + sender + "\n";
                             String riga;
                             while (!(riga = myReader.nextLine()).equals("------------------")){
                                 testo = testo + riga + "\n";
@@ -398,12 +419,13 @@ public class Server {
                     int i = 1;
                     String testo = "";
                     while ( myReader.hasNextLine()) {
+                        String date = myReader.nextLine();
                         String sender = myReader.nextLine();
 
                         if(i != index || !sender.equals(username)){
                             if (sender.equals(username))
                                 i = i + 1;
-                            testo = testo + sender + "\n";
+                            testo = testo + date + "\n" + sender + "\n";
                             String riga;
                             while (!(riga = myReader.nextLine()).equals("------------------")){
                                 testo = testo +riga + "\n";
@@ -439,7 +461,8 @@ public class Server {
         @Override
         public void run() {
             ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-            while (true){
+            running = true;
+            while (running){
                 try {
 
                     socket = s.accept();
@@ -487,7 +510,7 @@ public class Server {
                             break;
                     }
                 }catch (Exception e){
-                    System.out.println("ERRORE AAAA");
+                    System.out.println("ERRORE");
                 }
             }
         }

@@ -36,7 +36,7 @@ Non è stato possibile mandare una mail a las perchè l'indirizzo è inesistente
 ------------------
 15-04-2023 11:41:49
 antonio.adascaliti@unito.it
-lorenzo.dipalma@unito.it daniel.botezat@unito.it 
+lorenzo.dipalma@unito.it daniel.botezat@unito.it
 prova
 provaa
 ------------------
@@ -51,4 +51,53 @@ antonio.adascaliti@unito.it
 lorenzo.dipalma@unito.it stefano.venitucci@unito.it
 Domani
 ci vediamo domani
+------------------
+15-04-2023 21:41:07
+stefano.venitucci@unito.it
+antonio.adascaliti@unito.it 
+test
+test
+------------------
+15-04-2023 21:46:03
+cristina.muntianu@unito.it
+antonio.adascaliti@unito.it 
+test
+asfgasdfsdgf
+------------------
+15-04-2023 21:46:08
+cristina.muntianu@unito.it
+antonio.adascaliti@unito.it 
+test
+asgsgsdf
+------------------
+15-04-2023 21:47:57
+luca.perugini@unito.it
+antonio.adascaliti@unito.it 
+Buona Pasqua
+8
+------------------
+16-04-2023 11:59:38
+antonio.adascaliti@unito.it
+lorenzo.dipalma@unito.it 
+ecco
+ciao
+
+------------------
+16-04-2023 12:07:45
+antonio.adascaliti@unito.it
+luca.perugini@unito.it 
+Buona Pasqua
+ok
+------------------
+16-04-2023 12:20:47
+stefano.venitucci@unito.it
+antonio.adascaliti@unito.it 
+test
+wertRT
+------------------
+16-04-2023 12:20:54
+stefano.venitucci@unito.it
+antonio.adascaliti@unito.it 
+test
+ARFGER
 ------------------

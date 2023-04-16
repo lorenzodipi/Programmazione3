@@ -16,4 +16,8 @@ public class ServerController {
         serverList.itemsProperty().bind(server.getLogList());
 
     }
+
+    public void close() {
+        server.close();
+    }
 }
