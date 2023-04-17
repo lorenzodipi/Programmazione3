@@ -142,9 +142,11 @@ public class ClientController {
         String destinatario = txtFieldDestinatario.getText();
         String oggetto = txtFieldOggetto.getText();
         String testo = txtAreaSender.getText();
-        String regex = "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(destinatario);
+        //String regex = "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z].*$";
+        //String regex = "^\\s*([\\w+\\-.]+@[a-zA-Z\\d\\-.]+\\.[a-zA-Z]+\\s*[;,]\\s*)+\\s*$";
+        String regex = "^\\s*([\\w+\\-.]+@[a-zA-Z\\d\\-.]+\\.[a-zA-Z]+\\s*[;,]?\\s*)+\\s*$";
+        //Pattern pattern = Pattern.compile(regex);
+        //Matcher matcher = pattern.matcher(destinatario);
         boolean er = true;
 
 
@@ -168,9 +170,21 @@ public class ClientController {
             txtAreaSender.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
         }
 
-        if(!matcher.matches()){
+        if(!destinatario.matches(regex)){
             er = false;
             model.setError("Email sintatticamente errata");
+            txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(4), new BorderWidths(1))));
+            txtFieldDestinatario.setBackground(new Background(new BackgroundFill(new Color(Color.RED.getRed(),0,0,0.1), CornerRadii.EMPTY, Insets.EMPTY)));
+        }else {
+            er = true;
+            model.setError("");
+            txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.GRAY, BorderStrokeStyle.SOLID,new CornerRadii(4), new BorderWidths(1))));
+            txtFieldDestinatario.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+
+        if(destinatario.equals(lblUsername.getText())) {
+            er = false;
+            model.setError("Non puoi mandare mail a te stesso");
             txtFieldDestinatario.setBorder(new Border(new BorderStroke( Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(4), new BorderWidths(1))));
             txtFieldDestinatario.setBackground(new Background(new BackgroundFill(new Color(Color.RED.getRed(),0,0,0.1), CornerRadii.EMPTY, Insets.EMPTY)));
         }else {

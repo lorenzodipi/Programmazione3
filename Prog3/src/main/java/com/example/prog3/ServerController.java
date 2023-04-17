@@ -15,9 +15,16 @@ public class ServerController {
         server = new Server();
         serverList.itemsProperty().bind(server.getLogList());
 
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutting down server...");
+            server.close();
+            System.out.println("Server shut down.");
+        }));
+
     }
 
-    public void close() {
+   public void close() {
         server.close();
     }
 }

@@ -10,17 +10,6 @@ public class Email implements Serializable {
     private String subject;
     private String text;
 
-    //Email() {}
-
-    /**
-     * Costruttore della classe.
-     *
-     * @param sender     email del mittente
-     * @param receiver  emails dei destinatari
-     * @param subject    oggetto della com.example.prog3.lorenzo.dipalma@unito.it.txt
-     * @param text       testo della com.example.prog3.lorenzo.dipalma@unito.it.txt
-     */
-
 
     public Email(String sender, String receiver, String subject, String text) {
         this.sender = sender;

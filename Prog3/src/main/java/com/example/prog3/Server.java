@@ -18,18 +18,21 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+
 public class Server {
 
 
     //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\       papà
     ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/src/main/java/com/example/prog3/mail/     mac
     //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\src\main\java\com\example\prog3\mail\            mamma
-    String path = "C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
+    String path = "C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\src\\main\\java\\com\\example\\prog3\\mail\\";
 
     ///Users/lorenzodipalma/Documents/GitHub/Programmazione3/Prog3/username.txt     mac
     //C:\Users\Lorenzo Di Palma\Desktop\MAIN\Progetti\Programmazione3\Prog3\\username.txt       papà
     //C:\Users\loren\Desktop\MAIN\Programmazione3\Prog3\\username.txt        mamma
-    String path_user ="C:\\Users\\Lorenzo Di Palma\\Desktop\\MAIN\\Progetti\\Programmazione3\\Prog3\\\\username.txt";
+    String path_user ="C:\\Users\\loren\\Desktop\\MAIN\\Programmazione3\\Prog3\\username.txt";
     HashMap<String,File> hashMap = new HashMap<>();
     ArrayList<String> userList = new ArrayList<>();
     Socket socket;
@@ -40,6 +43,7 @@ public class Server {
     private ObservableList<String> logListContent;
     String username;
     boolean running;
+    ThreadPoolExecutor executor;
 
 
     public Server(){
@@ -154,7 +158,8 @@ public class Server {
             while(myReader.hasNextLine())
                 text = text + myReader.nextLine() +"\n";
 
-            text = text.substring(0, text.length()-1);
+            if(text.length()>1)
+                text = text.substring(0, text.length()-1);
 
             myReader.close();
             reader.close();
@@ -165,7 +170,10 @@ public class Server {
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                 String formattedDateTime = datetime.format(format);
                 FileWriter writer = new FileWriter(myObj);
-                writer.append(text).append("\n").append(formattedDateTime).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+send.getReceiver()+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                if(text.length()==0)
+                    writer.append(formattedDateTime).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+send.getReceiver()+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                else
+                    writer.append(text).append("\n").append(formattedDateTime).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+send.getReceiver()+" perchè l'indirizzo è inesistente.").append("\n------------------");
                 writer.close();
             }
         }else {
@@ -178,7 +186,9 @@ public class Server {
                     String text= "";
                     while(myReader.hasNextLine())
                         text = text + myReader.nextLine() +"\n";
-                    text = text.substring(0, text.length()-1);
+
+                    if(text.length()>1)
+                        text = text.substring(0, text.length()-1);
                     myReader.close();
                     reader.close();
 
@@ -189,7 +199,10 @@ public class Server {
                         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                         String formattedDateTime = datetime.format(format);
                         FileWriter writer = new FileWriter(myObj);
-                        writer.append(text).append("\n").append(formattedDateTime).append("\n").append(send.getSender()).append("\n").append(elenco).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
+                        if(text.length()==0)
+                            writer.append(formattedDateTime).append("\n").append(send.getSender()).append("\n").append(elenco).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
+                        else
+                            writer.append(text).append("\n").append(formattedDateTime).append("\n").append(send.getSender()).append("\n").append(elenco).append("\n").append(send.getSubject()).append("\n").append(send.getText()).append("\n------------------");
                         writer.close();
                     }
 
@@ -203,7 +216,8 @@ public class Server {
                     while(myReader.hasNextLine())
                         text = text + myReader.nextLine() +"\n";
 
-                    text = text.substring(0, text.length()-1);
+                    if(text.length()>1)
+                        text = text.substring(0, text.length()-1);
 
                     myReader.close();
                     reader.close();
@@ -213,7 +227,10 @@ public class Server {
                         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                         String formattedDateTime = datetime.format(format);
                         FileWriter writer = new FileWriter(myObj);
-                        writer.append(text).append("\n").append(formattedDateTime).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+user+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                        if(text.length()==0)
+                            writer.append(formattedDateTime).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+user+" perchè l'indirizzo è inesistente.").append("\n------------------");
+                        else
+                            writer.append(text).append("\n").append(formattedDateTime).append("\n").append("SERVER").append("\n").append(username).append("\n").append("ERRORE").append("\n").append("Non è stato possibile mandare una mail a "+user+" perchè l'indirizzo è inesistente.").append("\n------------------");
                         writer.close();
                     }
                 }
@@ -223,16 +240,23 @@ public class Server {
     }
 
     public void close() {
-        try {
-            running = false;
+        /*try {
             Socket close = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(close.getOutputStream());
 
             out.flush();
             out.writeObject("");
             out.writeObject("close");
+            running = false;
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }*/
+        running = false;
+        executor.shutdown();
+        try {
+            s.close();
+        } catch (IOException e) {
+            System.err.println("Errore nella chiusura del socket: " + e.getMessage());
         }
 
 
@@ -460,13 +484,13 @@ public class Server {
 
         @Override
         public void run() {
-            ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
+            executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
             running = true;
             while (running){
                 try {
 
                     socket = s.accept();
-                    System.out.println("Accettato socket ");
+                    System.out.println("Accettato socket");
                     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                     out.flush();
                     in = new ObjectInputStream(socket.getInputStream());
@@ -513,6 +537,13 @@ public class Server {
                     System.out.println("ERRORE");
                 }
             }
+
+            /*executor.shutdown();
+            try {
+                socket.close();
+            } catch (IOException e) {
+                System.err.println("Error closing server socket: " + e.getMessage());
+            }*/
         }
     }
 }

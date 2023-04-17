@@ -1,204 +1,42 @@
-15-04-2023 11:41:49
+17-04-2023 17:12:34
 luca.perugini@unito.it
-daniel.botezat@unito.it
-semper
-nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
+antonio.adascaliti@unito.it 
+Lorem
+Praesent lacinia dolor egestas eleifend fringilla. Vestibulum posuere eros nulla, ut molestie augue dictum non. Donec eget sem gravida, iaculis.
 ------------------
-15-04-2023 11:41:49
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it
-A proposito della nostra ultima conversazione
-Ricordati di comprare il latte tornando a casa
+17-04-2023 17:13:34
+antonio.adascaliti@unito.it
+luca.perugini@unito.it 
+Lorem
+Proin congue bibendum eleifend. Curabitur in pretium est, a cursus turpis. Etiam id eleifend risus. Pellentesque habitant morbi tristique senectus.
 ------------------
-15-04-2023 11:41:49
-lorenzo.dipalma@unito.it
-luca.perugini@unito.it
-Gelato
-ti piace il gelato?
-------------------
-15-04-2023 11:41:49
-lorenzo.dipalma@unito.it
-luca.perugini@unito.it
-Ciao a tutti
-ciao
-------------------
-15-04-2023 11:41:49
-lorenzo.dipalma@unito.it
-luca.perugini@unito.it antonio.adascaliti@unito.it
-ecco
-già
-------------------
-15-04-2023 11:41:49
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it stefano.venitucci@unito.it 
-Dadi
-ho trovato dei dadi
-------------------
-15-04-2023 11:41:49
-luca.perugini@unito.it
-daniel.botezat@unito.it cristina.muntianu@unito.it 
-Esci?
-Volete uscire?
-------------------
-15-04-2023 11:41:49
+17-04-2023 17:17:49
 SERVER
 luca.perugini@unito.it
 ERRORE
-Non è stato possibile mandare una mail a matteo perchè l'indirizzo è inesistente.
+Non è stato possibile mandare una mail a cristina@unito.it perchè l'indirizzo è inesistente.
 ------------------
-15-04-2023 11:41:49
-antonio.adascaliti@unito.it
-luca.perugini@unito.it daniel.botezat@unito.it
-Buona Pasqua
-Auguri
+17-04-2023 17:37:37
+cristina.muntianu@unito.it
+lorenzo.dipalma@unito.it daniel.botezat@unito.it luca.perugini@unito.it stefano.venitucci@unito.it 
+Mando una mail a tutti
+Ecco la mail
 ------------------
-15-04-2023 11:41:49
-lorenzo.dipalma@unito.it
+17-04-2023 17:39:07
 luca.perugini@unito.it
-Dadi
-grande
+cristina.muntianu@unito.it lorenzo.dipalma@unito.it daniel.botezat@unito.it stefano.venitucci@unito.it 
+Mando una mail a tutti
+Ottimo lavoro
 ------------------
-15-04-2023 11:41:49
+17-04-2023 18:11:01
 luca.perugini@unito.it
-daniel.botezat@unito.it
-prova
-prova test
+antonio.adascaliti@unito.it lorenzo.dipalma@unito.it daniel.botezat@unito.it stefano.venitucci@unito.it 
+Tante email
+Prova
 ------------------
-15-04-2023 11:41:49
-lorenzo.dipalma@unito.it
-luca.perugini@unito.it 
-Dadi
-Grande!
-------------------
-15-04-2023 12:18:05
-daniel.botezat@unito.it
-luca.perugini@unito.it 
-Esci?
-domani
-------------------
-15-04-2023 21:47:32
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Dadi
-1
-------------------
-15-04-2023 21:47:39
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Ciao a tutti
-2
-------------------
-15-04-2023 21:47:42
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Gelato
-3
-------------------
-15-04-2023 21:47:44
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Dadi
-4
-------------------
-15-04-2023 21:47:47
-luca.perugini@unito.it
-daniel.botezat@unito.it 
-Esci?
-5
-------------------
-15-04-2023 21:47:49
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-ecco
-6
-------------------
-15-04-2023 21:47:52
-luca.perugini@unito.it
-daniel.botezat@unito.it 
-Esci?
-7
-------------------
-15-04-2023 21:47:57
+17-04-2023 18:11:36
 luca.perugini@unito.it
 antonio.adascaliti@unito.it 
-Buona Pasqua
-8
-------------------
-16-04-2023 10:56:59
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-ecco
-a
-------------------
-16-04-2023 10:57:57
-lorenzo.dipalma@unito.it
-luca.perugini@unito.it 
-Dadi
-adfDF
-------------------
-16-04-2023 11:08:54
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-ecco
-z
-------------------
-16-04-2023 11:08:58
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-ecco
-x
-------------------
-16-04-2023 11:09:01
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Gelato
-c
-------------------
-16-04-2023 11:09:04
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Dadi
-v
-------------------
-16-04-2023 11:09:06
-luca.perugini@unito.it
-daniel.botezat@unito.it 
-Esci?
-b
-------------------
-16-04-2023 11:09:09
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Ciao a tutti
-n
-------------------
-16-04-2023 11:09:11
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Gelato
-m
-------------------
-16-04-2023 11:09:17
-luca.perugini@unito.it
-daniel.botezat@unito.it 
-Esci?
-m,
-------------------
-16-04-2023 12:06:46
-luca.perugini@unito.it
-daniel.botezat@unito.it 
-Esci?
-no
-------------------
-16-04-2023 12:07:45
-antonio.adascaliti@unito.it
-luca.perugini@unito.it 
-Buona Pasqua
-ok
-------------------
-16-04-2023 12:13:11
-luca.perugini@unito.it
-lorenzo.dipalma@unito.it 
-Dadi
-asasdads 1
+Lorem
+ok....
 ------------------

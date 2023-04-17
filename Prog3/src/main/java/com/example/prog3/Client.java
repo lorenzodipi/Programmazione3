@@ -37,13 +37,12 @@ public class Client {
             public void run() {
                 while (running){
                     try {
-                        while (username.isEmpty())
+                        while (username.isEmpty() && running)
                             socketUsername();
                         socketEntrata(username);
                         socketUscita(username);
                         Thread.sleep(10000);
                     } catch (InterruptedException e) {
-                        //throw new RuntimeException(e);
                         System.out.println("Chiusura thread");
 
                     }
@@ -84,48 +83,6 @@ public class Client {
         return outbox;
     }
     public void setEmail(ArrayList<Email> em,int c) throws IOException {
-
-        /*if(c==0)
-            Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                int size = inbox.size();
-                if(inbox.size()==0){
-                    inboxContent.addAll(em);
-                    Collections.reverse(inboxContent);
-                    setError("Mail aggiornate");
-                }else{
-                    System.out.println("em.size()-size: "+(em.size()-size));
-                    System.out.println("em.size(): "+em.size());
-                    Collections.reverse(inboxContent);
-                    for (int i = 0; i < em.size()-size; i++) {
-                        //if(em.size()>(inbox.size()+i))
-                        inboxContent.add(em.get(inbox.size()+i));
-                    }
-                    Collections.reverse(inboxContent);
-                    setError("Mail aggiornate");
-                }
-            }
-        });
-        else
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    int size = outbox.size();
-                    if(outbox.size()==0){
-                        outboxContent.addAll(em);
-                        Collections.reverse(outboxContent);
-                    }else{
-                        System.out.println("em.size()-size: "+(em.size()-size));
-                        System.out.println("em.size(): "+em.size());
-                        for (int i = 0; i < em.size()-size; i++) {
-                            if(em.size()>(outbox.size()+i))
-                                outboxContent.add(em.get(outbox.size()+i));
-                        }
-                        Collections.reverse(outboxContent);
-                    }
-                }
-            });*/
         if(c==0)
             Platform.runLater(new Runnable() {
                 @Override
@@ -234,8 +191,6 @@ public class Client {
             System.out.println("ERRORE a delete1");
             setError("Errore nel cancellare la mail!");
         }
-        /*System.out.println("inboxSize: " + inboxContent.size());
-        System.out.println("index: " + index);*/
     }
     public void socketDelete2(String username, int index,Email dEmail) { //Uscita
         try {
@@ -270,12 +225,13 @@ public class Client {
 
                 setError("");
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("ERRORE a username");
+                System.out.println("Non è stato possibile connettersi al server");
                 setError("Errore di connessione al server!");
             }
         setUser(username);
     }
     public void disconnect() {
+        running = false;
         try {
             socket = new Socket(InetAddress.getLocalHost(), 7);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -284,10 +240,9 @@ public class Client {
             out.writeObject(username);
             out.writeObject("disconnect");
 
-            running = false;
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Non è stato possibile connettersi al server");
         }
 
     }
